@@ -41,7 +41,7 @@ Use the following filters to establish a baseline and detect deviations:
 
 ## Step 2: Detect Suspicious DNS Activity
 
-Use the following filters to establish a baseline and detect deviations:
+Analyze DNS traffic for signs of exfiltration, C2 communication, or domain generation algorithms (DGA).
 
 - **All DNS**:
   ```plaintext
@@ -53,19 +53,20 @@ Use the following filters to establish a baseline and detect deviations:
   ```
 - **Suspicious Domains**:
   ```plaintext
-  dns
+  dns.qry.name contains "example.com"
+  dns.qry.name matches "(.*).xyz"
   ```
 - **Unanswered DNS Requests:**:
   ```plaintext
-  dns
+  dns.flags.response == 0
   ```
 Correlation Rule Insight: Monitor for repeated queries to uncommon domains or DGAs.
 
 ---
 
 ## Step 3: Analyze HTTP/HTTPS Traffic for Anomalies
-
 Look for signs of data exfiltration, C2 communication, or malicious uploads/downloads.
+
 **HTTP/HTTPS Filters:**
 - **HTTP Traffic**:
   ```plaintext
@@ -97,7 +98,24 @@ Look for signs of data exfiltration, C2 communication, or malicious uploads/down
   
 ---
 
+## Step 4: Detect Brute Force Attacks
+Identify repeated failed login attempts that might indicate a brute force attack.
 
+- **Brute Force Filters:**
+  - **SSH Authentication Failures:**
+    ```
+    tcp.port == 22 and ssh
+    ```
+  - **HTTP Login Attempts:**
+    ```
+    http.request.uri contains "login"
+    http.response.code == 401
+    ```
+ - **SMB Authentication Failures:**
+  ```
+  smb2.cmd == 0x0a and smb2.nt_status != 0x00000000
+  ```
+Correlation Rule Insight: Alert on multiple failed authentication attempts from the same IP within a short timeframe.
 
   
 
