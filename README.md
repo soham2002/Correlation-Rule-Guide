@@ -24,6 +24,19 @@ Use the following filters to establish a baseline and detect deviations:
   ```plaintext
   tcp or udp or icmp or dns or http
   ```
+- **Specific IP Addresses**:
+  ```plaintext
+  ip.addr == 192.168.1.100
+  ip.src == 192.168.1.100
+  ip.dst == 10.0.0.1
+  ```
+- **Ports**:
+  ```plaintext
+  tcp.port == 80
+  tcp.port == 443
+  udp.port == 53
+  ```
+  
 ## Step 2: Detect Suspicious DNS Activity
 
 Use the following filters to establish a baseline and detect deviations:
