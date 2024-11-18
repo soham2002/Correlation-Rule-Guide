@@ -156,4 +156,43 @@ Correlation Rule Insight: Set alerts for unusual file transfers to/from sensitiv
   
 ---
   
+## Step 7: Check for Anomalous Traffic Patterns
+Identify deviations from typical network traffic behavior to spot potential threats.
+
+**Anomaly Detection Filters:**
+- **Large Packets**:
+  ```plaintext
+  frame.len > 1500
+  ```
+- **Uncommon Protocols**:
+  ```plaintext
+  !(tcp or udp or icmp or dns or http)
+  ```
+- **Internal to External Traffic**(possible data exfiltration):
+  ```plaintext
+  ip.src == "10.0.0.0/8" && ip.dst != "10.0.0.0/8"
+  ```
+  
+Correlation Rule Insight: Set alerts for large packets or unexpected protocol usage.
+
+---
+  
+## Step 7: Check for Anomalous Traffic Patterns
+Identify deviations from typical network traffic behavior to spot potential threats.
+
+**Anomaly Detection Filters:**
+- **Large Packets**:
+  ```plaintext
+  frame.len > 1500
+  ```
+- **Uncommon Protocols**:
+  ```plaintext
+  !(tcp or udp or icmp or dns or http)
+  ```
+- **Internal to External Traffic**(possible data exfiltration):
+  ```plaintext
+  ip.src == "10.0.0.0/8" && ip.dst != "10.0.0.0/8"
+  ```
+  
+Correlation Rule Insight: Set alerts for large packets or unexpected protocol usage.
 
