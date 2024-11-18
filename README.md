@@ -23,4 +23,14 @@ Use the following filters to establish a baseline and detect deviations:
 - **General Protocols**:
   ```plaintext
   tcp or udp or icmp or dns or http
+  ```
+## Step 2: Detect Suspicious DNS Activity
+
+Use the following filters to establish a baseline and detect deviations:
+
+- **General Protocols**:
+  ```plaintext
+  tcp or udp or icmp or dns or http
+  ```
+  
 
