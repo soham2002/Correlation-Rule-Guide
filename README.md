@@ -64,7 +64,7 @@ Correlation Rule Insight: Monitor for repeated queries to uncommon domains or DG
 
 ---
 
-## Step 3: Analyze HTTP/HTTPS Traffic for Anomalies
+## Step 3: Analyze HTTP/HTTPS Traffic
 Look for signs of data exfiltration, C2 communication, or malicious uploads/downloads.
 
 **HTTP/HTTPS Filters:**
@@ -195,4 +195,25 @@ Identify deviations from typical network traffic behavior to spot potential thre
   ```
   
 Correlation Rule Insight: Set alerts for large packets or unexpected protocol usage.
+
+---
+
+### Step 8: Create SIEM Correlation Rules
+Once you've identified suspicious patterns, 
+Document them and create SIEM correlation rules.
+Define the conditions for a correlation rule in your SIEM system.
+Test the rule for accuracy using historical data or simulated traffic.
+
+- **Example Correlation Rule (Elastic SIEM/Kibana)**
+  ```
+  event.category: "authentication" AND event.outcome: "failure"
+  AND source.ip: "192.168.1.10"
+  AND event.action: "login"
+  ```
+- **Example Correlation Rule in Splunk**
+  ```
+  index=authentication sourcetype=linux_secure ("failed password" OR "authentication failure")
+  | stats count by src_ip
+  | where count > 10
+  ```
 
