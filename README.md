@@ -136,7 +136,24 @@ ICMP traffic may indicate reconnaissance or covert data transfers.
   ```
   
   Correlation Rule Insight: Detect ICMP traffic with large payloads or frequent pings to multiple destinations.
+  
 ---
 
+### Step 6: Monitor Suspicious File Transfers
+Attackers may use protocols like FTP or SMB to transfer files within the network.
+
+**File Transfer Filters:**
+- **FTP File Uploads**:
+  ```plaintext
+  ftp.request.command == "STOR"
+  ```
+- **SMB File Transfers**:
+  ```plaintext
+  smb2.cmd == 0x05
+  ```
+  
+Correlation Rule Insight: Set alerts for unusual file transfers to/from sensitive directories or external IPs.
+  
+---
   
 
