@@ -116,6 +116,27 @@ Identify repeated failed login attempts that might indicate a brute force attack
   smb2.cmd == 0x0a and smb2.nt_status != 0x00000000
   ```
 Correlation Rule Insight: Alert on multiple failed authentication attempts from the same IP within a short timeframe.
+  
+---
+
+### Step 5: Analyze ICMP Traffic
+ICMP traffic may indicate reconnaissance or covert data transfers.
+**ICMP Filters:**
+- **All ICMP Traffic**:
+  ```plaintext
+  icmp
+  ```
+- **Large ICMP Payloads** (potential data exfiltration):
+  ```plaintext
+  icmp && frame.len > 200
+  ```
+- **Unusual Ping Patterns:**:
+  ```plaintext
+  icmp.type == 8 and ip.dst != "192.168.1.1"
+  ```
+  
+  Correlation Rule Insight: Detect ICMP traffic with large payloads or frequent pings to multiple destinations.
+---
 
   
 
