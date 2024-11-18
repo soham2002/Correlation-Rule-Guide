@@ -37,13 +37,67 @@ Use the following filters to establish a baseline and detect deviations:
   udp.port == 53
   ```
   
+---
+
 ## Step 2: Detect Suspicious DNS Activity
 
 Use the following filters to establish a baseline and detect deviations:
 
-- **General Protocols**:
+- **All DNS**:
   ```plaintext
-  tcp or udp or icmp or dns or http
+  dns
   ```
+- **Large DNS Responses (potential data exfiltration)**:
+  ```plaintext
+  dns and dns.resp.len > 200
+  ```
+- **Suspicious Domains**:
+  ```plaintext
+  dns
+  ```
+- **Unanswered DNS Requests:**:
+  ```plaintext
+  dns
+  ```
+Correlation Rule Insight: Monitor for repeated queries to uncommon domains or DGAs.
+
+---
+
+## Step 3: Analyze HTTP/HTTPS Traffic for Anomalies
+
+Look for signs of data exfiltration, C2 communication, or malicious uploads/downloads.
+**HTTP/HTTPS Filters:**
+- **HTTP Traffic**:
+  ```plaintext
+  http
+  ```
+- **HTTP Post Requests**:
+  ```plaintext
+  http.request.method == "POST"
+  ```
+- **Unusual User Agents:**:
+  ```plaintext
+  http.user_agent contains "curl"
+  ```
+- **Sensitive Info in HTTP:**:
+  ```plaintext
+  http contains "password"
+  ```
+- **Sensitive Info in HTTP:**:
+  ```
+  tls.handshake.type == 11
+  tls.handshake.extensions_server_name contains "malicious.com"
+  ```
+- **Check for Old TLS(v1.0 or v1.1):**
+  ```
+  tls.handshake.version <= 0x0302
+  ```
+  
+  Correlation Rule Insight: Set alerts for suspicious POST requests, unusual user agents, or certificate anomalies.
+  
+---
+
+
+
   
 
