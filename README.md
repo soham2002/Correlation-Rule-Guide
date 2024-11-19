@@ -72,6 +72,10 @@ Look for signs of data exfiltration, C2 communication, or malicious uploads/down
   ```plaintext
   http
   ```
+- **HTTP Non Standard Post**:
+  ```plaintext
+  http and !(tcp.port == 80 || tcp.port == 443)
+  ```
 - **HTTP Post Requests**:
   ```plaintext
   http.request.method == "POST"
@@ -132,7 +136,7 @@ ICMP traffic may indicate reconnaissance or covert data transfers.
   ```
 - **Unusual Ping Patterns:**:
   ```plaintext
-  icmp.type == 8 and ip.dst != "192.168.1.1"
+  icmp.type == 8 and ip.dst_host != "192.168.1.1"
   ```
   
   Correlation Rule Insight: Detect ICMP traffic with large payloads or frequent pings to multiple destinations.
