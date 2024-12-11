@@ -80,6 +80,10 @@ Look for signs of data exfiltration, C2 communication, or malicious uploads/down
   ```plaintext
   http.request.method == "POST"
   ```
+- **HTTP Post Request to Non Standard Port**:
+  ```plaintext
+  http.request.method == "POST" && !(tcp.port == 80 || tcp.port == 443)
+  ```
 - **Unusual User Agents:**:
   ```plaintext
   http.user_agent contains "curl"
