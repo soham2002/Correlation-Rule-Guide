@@ -28,6 +28,6 @@ def extract_names_from_yaml(directory, output_file):
     print(f"Extracted names have been written to {output_file}")
 
 # Usage example
-directory = "F:/Vehere/RulesList-1.7.1"
+directory = "The File Location Here"
 output_file = "extracted_names.txt" 
 extract_names_from_yaml(directory, output_file)
