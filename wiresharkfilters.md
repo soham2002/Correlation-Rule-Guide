@@ -150,6 +150,10 @@ ICMP traffic may indicate reconnaissance or covert data transfers.
 ### Step 6: Monitor Suspicious File Transfers
 Attackers may use protocols like FTP or SMB to transfer files within the network.
 
+- **Executable Download from IPAddress**:
+  ```plaintext
+  frame contains ".exe" || frame contains ".dll"
+  ```
 **File Transfer Filters:**
 - **FTP File Uploads**:
   ```plaintext
