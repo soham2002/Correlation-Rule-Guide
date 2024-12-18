@@ -1,0 +1,201 @@
+_id: ca53902d9070a6faa6196378a1448f9e
+alert_transport: []
+description: This rule detects download of files from known suspicious TLD
+enable_response: false
+filter:
+  - bool:
+      must:
+        - bool:
+            should:
+              - term:
+                  recon.file_types: exe
+              - term:
+                  recon.file_types: vbs
+              - term:
+                  recon.file_types: bat
+              - term:
+                  recon.file_types: rar
+              - term:
+                  recon.file_types: ps1
+              - term:
+                  recon.file_types: doc
+              - term:
+                  recon.file_types: docm
+              - term:
+                  recon.file_types: xls
+              - term:
+                  recon.file_types: xlsm
+              - term:
+                  recon.file_types: pptm
+              - term:
+                  recon.file_types: rtf
+              - term:
+                  recon.file_types: hta
+              - term:
+                  recon.file_types: dll
+              - term:
+                  recon.file_types: ws
+              - term:
+                  recon.file_types: wsf
+              - term:
+                  recon.file_types: sct
+              - term:
+                  recon.file_types: zip
+        - bool:
+            should:
+              - wildcard:
+                  payload.http_host.keyword: '*.country'
+              - wildcard:
+                  payload.http_host.keyword: '*.stream'
+              - wildcard:
+                  payload.http_host.keyword: '*.gdn'
+              - wildcard:
+                  payload.http_host.keyword: '*.mom'
+              - wildcard:
+                  payload.http_host.keyword: '*.xin'
+              - wildcard:
+                  payload.http_host.keyword: '*.kim'
+              - wildcard:
+                  payload.http_host.keyword: '*.men'
+              - wildcard:
+                  payload.http_host.keyword: '*.loan'
+              - wildcard:
+                  payload.http_host.keyword: '*.download'
+              - wildcard:
+                  payload.http_host.keyword: '*.racing'
+              - wildcard:
+                  payload.http_host.keyword: '*.online'
+              - wildcard:
+                  payload.http_host.keyword: '*.science'
+              - wildcard:
+                  payload.http_host.keyword: '*.ren'
+              - wildcard:
+                  payload.http_host.keyword: '*.gb'
+              - wildcard:
+                  payload.http_host.keyword: '*.win'
+              - wildcard:
+                  payload.http_host.keyword: '*.top'
+              - wildcard:
+                  payload.http_host.keyword: '*.review'
+              - wildcard:
+                  payload.http_host.keyword: '*.vip'
+              - wildcard:
+                  payload.http_host.keyword: '*.party'
+              - wildcard:
+                  payload.http_host.keyword: '*.tech'
+              - wildcard:
+                  payload.http_host.keyword: '*.xyz'
+              - wildcard:
+                  payload.http_host.keyword: '*.date'
+              - wildcard:
+                  payload.http_host.keyword: '*.faith'
+              - wildcard:
+                  payload.http_host.keyword: '*.zip'
+              - wildcard:
+                  payload.http_host.keyword: '*.cricket'
+              - wildcard:
+                  payload.http_host.keyword: '*.space'
+              - wildcard:
+                  payload.http_host.keyword: '*.info'
+              - wildcard:
+                  payload.http_host.keyword: '*.vn'
+              - wildcard:
+                  payload.http_host.keyword: '*.cm'
+              - wildcard:
+                  payload.http_host.keyword: '*.am'
+              - wildcard:
+                  payload.http_host.keyword: '*.cc'
+              - wildcard:
+                  payload.http_host.keyword: '*.asia'
+              - wildcard:
+                  payload.http_host.keyword: '*.ws'
+              - wildcard:
+                  payload.http_host.keyword: '*.tk'
+              - wildcard:
+                  payload.http_host.keyword: '*.biz'
+              - wildcard:
+                  payload.http_host.keyword: '*.su'
+              - wildcard:
+                  payload.http_host.keyword: '*.st'
+              - wildcard:
+                  payload.http_host.keyword: '*.ro'
+              - wildcard:
+                  payload.http_host.keyword: '*.ge'
+              - wildcard:
+                  payload.http_host.keyword: '*.ms'
+              - wildcard:
+                  payload.http_host.keyword: '*.pk'
+              - wildcard:
+                  payload.http_host.keyword: '*.nu'
+              - wildcard:
+                  payload.http_host.keyword: '*.me'
+              - wildcard:
+                  payload.http_host.keyword: '*.ph'
+              - wildcard:
+                  payload.http_host.keyword: '*.to'
+              - wildcard:
+                  payload.http_host.keyword: '*.tt'
+              - wildcard:
+                  payload.http_host.keyword: '*.name'
+              - wildcard:
+                  payload.http_host.keyword: '*.tv'
+              - wildcard:
+                  payload.http_host.keyword: '*.kz'
+              - wildcard:
+                  payload.http_host.keyword: '*.tc'
+              - wildcard:
+                  payload.http_host.keyword: '*.mobi'
+              - wildcard:
+                  payload.http_host.keyword: '*.study'
+              - wildcard:
+                  payload.http_host.keyword: '*.click'
+              - wildcard:
+                  payload.http_host.keyword: '*.link'
+              - wildcard:
+                  payload.http_host.keyword: '*.trade'
+              - wildcard:
+                  payload.http_host.keyword: '*.accountant'
+              - wildcard:
+                  payload.http_host.keyword: '*.cf'
+              - wildcard:
+                  payload.http_host.keyword: '*.gq'
+              - wildcard:
+                  payload.http_host.keyword: '*.ml'
+              - wildcard:
+                  payload.http_host.keyword: '*.ga'
+              - wildcard:
+                  payload.http_host.keyword: '*.pw'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI03019 Download from known suspicious TLD
+owner: vnfsadmin
+priority: 2
+shared: false
+tags:
+  - attack.initial_access
+  - attack.t1566
+  - attack.execution
+  - attack.t1203
+  - attack.t1204.002
+  - attack.t1204
+timestamp_field: '@timestamp'
+type: any
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565ca53902d9070a6faa6196378a1448f9e

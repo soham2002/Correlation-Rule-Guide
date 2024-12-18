@@ -1,0 +1,43 @@
+_id: d046bb75b80a0cc66fc4ec6453ab9792
+name: TI14099 UDP Flood (DoS)
+index: logvehere-probe-*
+type: metric_aggregation
+filter:
+  - term:
+      transport.protocol: udp
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 0
+enable_response: false
+timestamp_field: '@timestamp'
+query_key:
+- network.dst_ip
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+match_bucket_filter: []
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+max_threshold: 500000
+metric_agg_key: session.id
+metric_agg_type: value_count
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+scheduler: '* * * * *'
+description: >-
+  This rule detects a targeted DoS attack, random UDP ports on the targeted host
+  are flood with UDP datagrams.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 1721898565d046bb75b80a0cc66fc4ec6453ab9792

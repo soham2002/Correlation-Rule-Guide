@@ -1,0 +1,48 @@
+_id: 0b1fea01a5a30f4d8043ab6519391789
+name: TI10119 DLL Upload to ProgramFiles Dir using SMBv1 Lateral Movement
+index: logvehere-probe-*
+description: >-
+  This rule detects the transfer of a Dynamic Link Library (DLL) file in the "Program Files" directory.
+
+  The “Program Files” folder has several folders with DLLs in it. When a program is launched, several DLLs get loaded automatically. When a DLL is loaded into a program, an initialization function is always called. A malicious DLL will have its malicious code embedded in this initialization function.
+
+  Any program that inadvertently loads the DLL will lead to the DLL’s initialization function being invoked and will lead to the malware executing on the system.
+
+  An attacker who has sufficient credentials could overwrite existing DLLs on a remote system with the attacker's version.
+
+filter:
+  - match_phrase:
+      payload.smb_headers.smb_command: Tree Connect AndX
+  - wildcard:
+      payload.smb_headers.smb_path.keyword: '*\\C$'
+  - wildcard:
+      payload.smb_headers.smb_filename.keyword: '*Program Files\\*.dll'
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 17218985650b1fea01a5a30f4d8043ab6519391789

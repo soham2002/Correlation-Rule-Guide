@@ -1,0 +1,79 @@
+_id: a84020be7d0e9ca433cfafcb1b39bfc6
+alert_transport: []
+description: >-
+  This rule detects suspicious malformed user agent strings in proxy logs
+  associated with Vulnerability scanners, bruteforce password crackers and
+  exploitation tools.
+
+  User-Agent stings typically seen as part of malware activity or that is not
+  well formed.
+enable_response: false
+filter:
+  - bool:
+      must:
+        - bool:
+            should:
+              - term:
+                  payload.user_agent.keyword: user-agent
+              - term:
+                  payload.user_agent.keyword: _
+              - term:
+                  payload.user_agent.keyword: CertUtil URL Agent
+              - term:
+                  payload.user_agent.keyword: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0)'
+              - term:
+                  payload.user_agent.keyword: HTTPS
+              - wildcard:
+                  payload.user_agent.keyword: '* (compatible;MSIE *'
+              - wildcard:
+                  payload.user_agent.keyword: '*.0;Windows NT *'
+              - wildcard:
+                  payload.user_agent.keyword: Mozilla/3.0 *
+              - wildcard:
+                  payload.user_agent.keyword: Mozilla/2.0 *
+              - wildcard:
+                  payload.user_agent.keyword: Mozilla/1.0 *
+              - wildcard:
+                  payload.user_agent.keyword: Mozilla *
+              - wildcard:
+                  payload.user_agent.keyword: Mozila/*
+        - bool:
+            must_not:
+              wildcard:
+                payload.user_agent.keyword: Mozilla/3.0 * Acrobat *
+        - bool:
+            must_not:
+              wildcard:
+                payload.user_agent.keyword: '*Adobe Synchronizer*'
+        - bool:
+            must_not:
+              wildcard:
+                payload.user_agent.keyword: '*Adobe NGL*'
+index: logvehere-probe-*
+is_enabled: true
+name: TI03020 Suspicious User Agent In Network Traffic
+owner: vnfsadmin
+priority: 1
+shared: false
+tags:
+  - attack.command_and_control
+  - attack.t1071.001
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565a84020be7d0e9ca433cfafcb1b39bfc6

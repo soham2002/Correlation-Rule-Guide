@@ -1,0 +1,46 @@
+_id: 119d1a934a8c9ded7fa0189499b0afe0
+name: TI01080 ICMP Precedence Violation
+index: logvehere-probe-*
+type: any
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  payload.icmp_code: 14
+              - term:
+                  payload.icmp_type: '3'
+        - bool:
+            must:
+              - wildcard:
+                  session.dpi_protocol.keyword: '*netflow*'
+              - term:
+                  session.icmp_type: '782'
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+timestamp_field: '@timestamp'
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+description: >-
+  This rule detects when source host has received an ICMP message that "host
+  precedence violation" has occurred. Sent by the first hop router to a host to
+  indicate that a requested precedence is not permitted for the particular
+  combination of source/destination host or network, upper layer protocol, and
+  source/destination port.
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565119d1a934a8c9ded7fa0189499b0afe0

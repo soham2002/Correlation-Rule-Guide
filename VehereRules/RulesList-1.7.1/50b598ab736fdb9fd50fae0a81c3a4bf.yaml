@@ -1,0 +1,47 @@
+_id: 50b598ab736fdb9fd50fae0a81c3a4bf
+name: TI10125 Remote Registry AppInit DLL smbv2 change Lateral Movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.msrpc_key_name: SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows
+        - match_phrase:
+            payload.smb_headers.msrpc_opnum: '22'
+        - match_phrase:
+            payload.smb_headers.smb2_command: Tree Connect
+        - match_phrase:
+            payload.smb_headers.msrpc_pkt_type: OpenHKLM
+        - match_phrase:
+            payload.smb_headers.msrpc_key_file: AppInit_DLLs
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rule indicates remote modification of the registry key using AppInit DLL.
+
+  The Windows registry has a key that allows the preloading of a DLL whenever any program is launched.
+
+  An attacker can upload a malicious DLL to a location of the attacker's choosing and then have the path to the DLL added to the “AppInit_DLLs” key. Once this is done, any program launched will have the DLL loaded into its memory space.
+
+  Whenever a DLL is loaded its initialization function is called and attackers have their malicious code located inside this initialization function.
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 172189856550b598ab736fdb9fd50fae0a81c3a4bf

@@ -1,0 +1,61 @@
+_id: 8d36e3c274d84929973560211c08542b
+alert_transport: []
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+description: >-
+  This rule detects malicious behaviour using dns protocol. High null record
+  type DNS queries, possible exfiltration from Iodine tool.
+
+  Several DNS request types are supported, with the NULL and PRIVATE types
+  expected to provide the largest downstream bandwidth.
+
+
+  DNS NULL records are place holders for experimental extensions and not seen in
+  regular traffic.
+enable_response: false
+filter:
+  - term:
+      payload.dns_headers.dns_record_type: 10
+
+index: logvehere-probe-*
+is_enabled: true
+max_threshold: 50
+metric_agg_key: session.id
+metric_agg_type: cardinality
+name: TI01058 High NULL Records Requests Rate
+owner: vnfsadmin
+priority: 0
+query_key:
+- network.src_ip
+shared: false
+tags:
+  - attack.exfiltration
+  - attack.t1048
+  - attack.t1048.003
+  - attack.command_and_control
+  - attack.t1071
+  - attack.t1071.004
+timestamp_field: '@timestamp'
+type: metric_aggregation
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 17218985658d36e3c274d84929973560211c08542b

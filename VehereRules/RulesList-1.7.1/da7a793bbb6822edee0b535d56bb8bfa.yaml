@@ -1,0 +1,35 @@
+_id: da7a793bbb6822edee0b535d56bb8bfa
+name: TI02151 Mirai Malware Activity detected
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - term:
+            payload.user_agent.keyword: 'Hello, world'
+        - wildcard:
+            payload.http_get.keyword: '*/shell\?cd+/tmp*;wget+*'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 0
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rule detects Mirai malware activity. 
+
+
+  This malware is used by cybercriminals to target computer systems in distributed denial of service (DDoS) attacks
+alert:
+  - lsalert
+
+
+
+
+# PROBE_NDR
+rule_id: 1721898565da7a793bbb6822edee0b535d56bb8bfa

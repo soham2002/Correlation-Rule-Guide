@@ -1,0 +1,55 @@
+_id: 468ff69f35662a2f93f93a032e55f6d0
+name: TI01042 High TXT Records Requests Rate
+index: logvehere-probe-*
+type: metric_aggregation
+filter:
+  - term:
+      payload.dns_headers.dns_record_type: 16
+alert_transport: []
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 1
+enable_response: false
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+description: >-
+  This rule detects malicious DNS TXT requests. These requests are usually seen
+  in malware activity. Data can be exfiltrated by embedding the data in strings
+  and then sending that string in dns packet.
+max_threshold: 50
+metric_agg_key: session.id
+metric_agg_type: cardinality
+query_key:
+- network.src_ip
+tags:
+  - attack.exfiltration
+  - attack.t1048
+  - attack.t1048.003
+  - attack.command_and_control
+  - attack.t1071
+  - attack.t1071.004
+timestamp_field: '@timestamp'
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565468ff69f35662a2f93f93a032e55f6d0

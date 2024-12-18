@@ -1,0 +1,45 @@
+_id: 66365f584de4b51aed112c4dfda0ad2d
+name: TI03145 CVE-2022-1388 BIG-IP iControl REST vulnerability
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - wildcard:
+            payload.http_get.keyword: '*/mgmt/tm/util/bash*'
+  - bool:
+      must:
+        - wildcard:
+            payload.attribute_type.keyword: command
+        - wildcard:
+            payload.attribute_value.keyword: run
+        - wildcard:
+            payload.attribute_type.keyword: utilCmdArgs
+        - wildcard:
+            payload.attribute_value.keyword: \-c \'*
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 1
+enable_response: false
+enable_end_date: false
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rule detects BIG-IP iControl REST vulnerability. Successful exploitation
+  of this vulnerability could result in  system commands, create or delete
+  files, or disable services.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR
+rule_id: 172189856566365f584de4b51aed112c4dfda0ad2d

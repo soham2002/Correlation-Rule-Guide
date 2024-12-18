@@ -1,0 +1,57 @@
+_id: de1139cc8689872b8877104e8432a6e8
+alert_transport: []
+description: >-
+  This rule detects download of flash player from suspicious locations. Flash is
+  still being used in legacy software and was a popular method used by attackers
+  to launch payload
+enable_response: false
+filter:
+  - bool:
+      must:
+        - bool:
+            should:
+              - wildcard:
+                  payload.http_get.keyword: '*/install_flash_player.exe'
+              - wildcard:
+                  payload.http_get.keyword: '*/flash_install.php*'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_get.keyword: '*.adobe.com/*'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI03024 Flash Player Update from Suspicious Location
+owner: vnfsadmin
+priority: 3
+shared: false
+tags:
+  - attack.initial_access
+  - attack.t1189
+  - attack.execution
+  - attack.t1204.002
+  - attack.t1204
+  - attack.defense_evasion
+  - attack.t1036.005
+  - attack.t1036
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR
+rule_id: 1721898565de1139cc8689872b8877104e8432a6e8

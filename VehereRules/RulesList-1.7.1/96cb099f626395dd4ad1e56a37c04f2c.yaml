@@ -1,0 +1,51 @@
+_id: 96cb099f626395dd4ad1e56a37c04f2c
+name: TI10120 Remote Registry WinLogon Key Shell smbv1 Lateral Movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.smb_command: Tree Connect AndX
+        - match_phrase:
+            payload.smb_headers.msrpc_key_name: Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon
+        - match_phrase:
+            payload.smb_headers.msrpc_opnum: '22'
+        - match_phrase:
+            payload.smb_headers.msrpc_key_file: Shell
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+
+
+
+description: >-
+  This rule indicates remote modification of registry key using WinLogon key.
+
+
+  The “Winlogon” key controls what all code should run when a user logs off,
+  logs in, locks the screen or shuts down the machine.
+
+
+  This key is used by the malware to achieve persistence.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 172189856596cb099f626395dd4ad1e56a37c04f2c

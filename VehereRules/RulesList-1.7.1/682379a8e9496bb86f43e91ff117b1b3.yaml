@@ -1,0 +1,45 @@
+_id: 682379a8e9496bb86f43e91ff117b1b3
+name: TI10142 Remote Registry Run Key smbv1 Lateral Movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.smb_command: Tree Connect AndX
+        - match_phrase:
+            payload.smb_headers.msrpc_pkt_type: OpenHKLM
+        - match_phrase:
+            payload.smb_headers.msrpc_key_name: Software\\Microsoft\\Windows\\CurrentVersion\\Run
+        - match_phrase:
+            payload.smb_headers.msrpc_opnum: '22'
+        - match_phrase:
+            payload.smb_headers.msrpc_key_file: LaunchProg
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rule indicates remote modification of a registry key using the Run key.
+
+  The "Run" key can be used to execute a program whenever a user logs into a machine. Attackers use this key for persistence.
+
+  By uploading an "exe" to an obscure location and adding that to this key, the attacker can ensure that the "exe" is always executed when a user logs in.
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565682379a8e9496bb86f43e91ff117b1b3

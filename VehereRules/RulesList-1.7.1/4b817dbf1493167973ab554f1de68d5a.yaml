@@ -1,0 +1,47 @@
+shared: false
+correlation_param: network.src_ip
+buffer_time:
+  minutes: 15
+type: metric_aggregation
+metric_agg_type: cardinality
+scheduler: "* * * * *"
+is_enabled: true
+alert:
+  - lsalert
+_id: 4b817dbf1493167973ab554f1de68d5a
+alert_transport: []
+owner: vnfsadmin
+max_threshold: 2
+ls_output_file_path: "/var/log/ruleengine/vnfsalert.json"
+metric_agg_key: rule_name
+enable_response: false
+index: vnfs-alert-status
+timestamp_field: "@timestamp"
+priority: 0
+filter:
+- bool:
+    should:
+    - bool:
+        must:
+        - term:
+            rule_name: TI10167 Post to Image 
+        - term:
+            alert_sent: true
+    - bool:
+        must:
+        - term:
+            rule_name: TI10166 Executable Download from IP address 
+        - term:
+            alert_sent: true
+    - bool:
+        must:
+        - term:
+            rule_name: TI07168 Old TLS version Detected
+        - term:
+            alert_sent: true
+name: TI10173 GandCrab Ransomware
+alert_enabled: true
+query_key:
+- correlation_param
+description: This rule detects sequence of activities associated with GandCrab Ransomware.
+rule_id: 17218985654b817dbf1493167973ab554f1de68d5a

@@ -1,0 +1,32 @@
+_id: ea373b18423990a775f29d291ae3124f
+name: TI01086 ICMP Unreachable Protocol sFlow
+index: logvehere-probe-*
+type: any
+filter:
+  - bool:
+      must:
+        - term:
+            session.icmp_code: 2
+        - term:
+            session.icmp_type: '3'
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+timestamp_field: '@timestamp'
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+description: >-
+  This rule detects Port Scan Attempt by attacker using ICMP packets. Attacker
+  sends ICMP packets without any payload to each specified protocol on the
+  target machine. If an ICMP Protocol Unreachable error message is received, it
+  means the protocol is not used.
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+# PROBE_NDR_NF
+rule_id: 1721898565ea373b18423990a775f29d291ae3124f

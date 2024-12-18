@@ -1,0 +1,46 @@
+_id: 681fa4236ff7c2473bed93ad2ef011f9
+alert_transport: []
+description: >-
+  This rule detects HTTP traffic without a User-Agent. All browsers and in-app
+  browser have a user-agent field. Absence of this field can be treated as an
+  anomaly
+enable_response: false
+filter:
+  - bool:
+      must:
+        - term:
+            payload.remarks: EMPTY_USER_AGENT
+        - bool:
+            must_not:
+              exists:
+                field: payload.user_agent
+index: logvehere-probe-*
+scheduler: '* * * * *'
+is_enabled: true
+name: TI03036 Empty User Agent
+owner: vnfsadmin
+priority: 2
+shared: false
+tags:
+  - attack.defense_evasion
+  - attack.command_and_control
+  - attack.t1071.001
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565681fa4236ff7c2473bed93ad2ef011f9

@@ -1,0 +1,41 @@
+_id: ba145bc44ae739d03c396558f1932d16
+name: TI14148 Apache Log4j logging Remote code execution vulnerability CVE-2021-44228
+index: logvehere-probe-*
+filter:
+  - bool:
+      should:
+        - wildcard:
+            payload.http_x_api_version.keyword: '${jndi:ldap://*'
+        - wildcard:
+            payload.user_agent.keyword: '${jndi:ldap://*'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 0
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rules detects vulnerability in Apache Log4j CVE-2021-44228.
+
+
+  This vulnerability allows insecure JNDI server lookups which could allow
+  unauthenticated, remote attacker to execute arbitrary code with privileges of
+  the vulnerable java application using Log4j.
+
+
+  Successful execution of the vulnerability may result in the attacker to
+  download and execute the arbitrary code.
+
+alert:
+  - lsalert
+
+
+
+# PROBE_NDR
+rule_id: 1721898565ba145bc44ae739d03c396558f1932d16

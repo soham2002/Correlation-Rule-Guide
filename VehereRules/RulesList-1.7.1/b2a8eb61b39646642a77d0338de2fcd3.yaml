@@ -1,0 +1,42 @@
+_id: b2a8eb61b39646642a77d0338de2fcd3
+name: TI10126 Exe Upload to System32 Dir using SMBv1 Lateral Movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.smb_command: Tree Connect AndX
+        - wildcard:
+            payload.smb_headers.smb_path.keyword: '*\\C$'
+        - wildcard:
+            payload.smb_headers.smb_filename.keyword: 'Windows\\System32\\*.exe'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >
+  This rule detects the transfer of an executable file in the "System32"
+  directory.
+
+
+  The system32 folder which is a critical folder containing all the executable
+  typical used from the windows command line.
+
+
+  It may be noted that once an attacker has privileged access the choice
+  of location is unpredictable. The attacker could drop the file in C$ driver,
+  the system32 folder or even the temp folder.
+alert:
+  - lsalert
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565b2a8eb61b39646642a77d0338de2fcd3

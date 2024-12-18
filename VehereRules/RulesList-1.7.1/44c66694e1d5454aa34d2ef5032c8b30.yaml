@@ -1,0 +1,53 @@
+_id: 44c66694e1d5454aa34d2ef5032c8b30
+name: TI14097 SYN Flood (DoS)
+index: logvehere-probe-*
+type: metric_aggregation
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  session.server_tcp_initial_flags: AS
+              - term:
+                  session.client_tcp_initial_flags: S
+        - bool:
+            must:
+              - term:
+                  session.netflow_tcp_flags.keyword: EAS
+        - bool:
+            must:
+              - term:
+                  session.flow_tcp_flags.keyword: EAS
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 0
+enable_response: false
+timestamp_field: '@timestamp'
+query_key:
+- network.dst_ip
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+match_bucket_filter: []
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+max_threshold: 500000
+metric_agg_key: session.id
+metric_agg_type: value_count
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+scheduler: '* * * * *'
+description: >-
+  This rule detects a targeted DoS attack. SYN packets are used to flood
+  available ports on the target.
+alert:
+  - lsalert
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 172189856544c66694e1d5454aa34d2ef5032c8b30

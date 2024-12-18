@@ -1,0 +1,51 @@
+_id: 4cac7ec5ce62e0603544bf30d01629d9
+name: TI01096 Port Scan UDP
+index: logvehere-probe-*
+type: metric_aggregation
+filter:
+  - term:
+      transport.protocol: udp
+  - term:
+      payload.icmp_code: '3'
+  - term:
+      payload.icmp_type: '3'
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+timestamp_field: '@timestamp'
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+query_key:
+- network.dst_ip
+max_threshold: 20
+metric_agg_key: transport.dst_port
+metric_agg_type: cardinality
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+match_bucket_filter: []
+scheduler: '* * * * *'
+description: >-
+  This rule detects UDP Scan. When this is done by an outside host, it can be
+  the precursor to attempts at exploitation. When the scan is done by an inside
+  host, it is a compromised host trying to move laterally within an
+  organization's network.
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 17218985654cac7ec5ce62e0603544bf30d01629d9

@@ -1,0 +1,34 @@
+_id: a1b22b8e3d626c0fb2b8d1bf2a707b10
+name: TI01108 Small Fragments In a flow
+index: logvehere-probe-*
+filter:
+  - range:
+      network.min_frag_data_length:
+        lte: '16'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rule detects when an attacker is trying to gather information about the
+  machine by sending an IP packet with short fragmentation value and that would
+  cause to truncate protocol header.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565a1b22b8e3d626c0fb2b8d1bf2a707b10

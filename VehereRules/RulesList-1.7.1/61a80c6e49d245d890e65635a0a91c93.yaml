@@ -1,0 +1,50 @@
+_id: 61a80c6e49d245d890e65635a0a91c93
+alert_transport: []
+description: This rule detects Colbaltstrikes malleable C2 traffic to OneDrive
+enable_response: false
+filter:
+  - bool:
+      must:
+        - bool:
+            must:
+              - wildcard:
+                  payload.http_get.keyword: '*?manifest=wac'
+              - term:
+                  payload.http_host: onedrive.live.com
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_get.keyword: 'http*://onedrive.live.com/*'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI03022 CobaltStrike Malleable OneDrive Browsing Traffic Profile
+owner: vnfsadmin
+priority: 1
+shared: false
+tags:
+  - attack.defense_evasion
+  - attack.command_and_control
+  - attack.t1071.001
+  - attack.t1043
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 172189856561a80c6e49d245d890e65635a0a91c93

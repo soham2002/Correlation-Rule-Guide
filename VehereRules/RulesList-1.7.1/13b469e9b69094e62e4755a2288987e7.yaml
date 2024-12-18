@@ -1,0 +1,45 @@
+_id: 13b469e9b69094e62e4755a2288987e7
+name: TI10017 High data transfer from a country
+index: logvehere-probe-*
+type: metric_aggregation
+filter: []
+alert_transport: []
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+timestamp_field: '@timestamp'
+description: This rule detects high data transfer from a country, which could be an indicator of exfiltration.
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: true
+query_key:
+- network.src_geo_ip.country_name.keyword
+max_threshold: 8000000000
+metric_agg_key: session.transmitted_bytes
+metric_agg_type: sum
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+owned: true
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+
+
+scheduler: '* * * * *'
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 172189856513b469e9b69094e62e4755a2288987e7

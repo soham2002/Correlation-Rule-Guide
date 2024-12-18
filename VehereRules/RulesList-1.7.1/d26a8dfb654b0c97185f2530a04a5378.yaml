@@ -1,0 +1,30 @@
+_id: d26a8dfb654b0c97185f2530a04a5378
+name: TI01079 ICMP Unknown Destination Network sFlow
+index: logvehere-probe-*
+type: any
+filter:
+  - bool:
+      must:
+        - term:
+            session.icmp_code: 6
+        - term:
+            session.icmp_type: '3'
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+timestamp_field: '@timestamp'
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+description: >-
+  This rule detects detects when the source host has received an ICMP message
+  that a "destination network unknown" error has occurred
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+# PROBE_NDR_NF
+rule_id: 1721898565d26a8dfb654b0c97185f2530a04a5378

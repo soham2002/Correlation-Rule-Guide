@@ -1,0 +1,31 @@
+_id: 1774a8876519cf9c2debd41c5e2a661b
+name: TI10171 HTTPS Protocol On Non Standard Port
+index: logvehere-probe-*
+filter:
+  - exists:
+      field: payload.ssl_version
+  - bool:
+      must_not:
+        term:
+          transport.dst_port: '443'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin 
+priority: 3
+enable_response: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.txt
+description: This rule detects HTTPS running on non standard port.
+alert_enabled: false
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+rule_id: 17218985651774a8876519cf9c2debd41c5e2a661b
+correlation_param: network.src_ip

@@ -1,0 +1,53 @@
+_id: 594a42e6a87850710a05dfd1e7c2a474
+alert_transport: []
+description: >-
+  This rule detects typical user-agent strings used by cryptominers like XMRig.
+
+
+  Cryptojacking is the unauthorized use of someone else’s compute resources to mine cryptocurrency. Hackers seek to hijack any kind of systems they can take over desktops, servers, cloud infrastructure and more to illicitly mine for crypto coins.
+
+
+  Regardless of the delivery mechanism, cryptojacking code typically works quietly in the background as unsuspecting victims use their systems normally.
+
+enable_response: false
+filter:
+  - bool:
+      should:
+        - wildcard:
+            payload.user_agent.keyword: XMRig*
+        - wildcard:
+            payload.user_agent.keyword: ccminer*
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI03025 Crypto Miner User Agent
+owner: vnfsadmin
+priority: 2
+shared: false
+tags:
+  - attack.command_and_control
+  - attack.t1071.001
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+
+
+
+
+scheduler: '* * * * *'
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565594a42e6a87850710a05dfd1e7c2a474

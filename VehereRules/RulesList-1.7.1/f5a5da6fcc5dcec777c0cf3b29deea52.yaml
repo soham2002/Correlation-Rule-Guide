@@ -1,0 +1,46 @@
+_id: f5a5da6fcc5dcec777c0cf3b29deea52
+alert_transport: []
+description: >-
+  This rule detects Turla ComRAT patterns
+
+
+  Agent.BTZ is a Remote Access Trojan (RAT). This malware family, along with
+  other families such as the Snake rootkit, was attributed to an APT group
+  dubbed Turla.
+enable_response: false
+filter:
+  - wildcard:
+      payload.http_get.keyword: '*/index/index.php?h=*'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI03034 Turla ComRAT
+owner: vnfsadmin
+priority: 1
+shared: false
+tags:
+  - attack.defense_evasion
+  - attack.command_and_control
+  - attack.t1071.001
+  - attack.t1043
+  - attack.g0010
+timestamp_field: '@timestamp'
+type: any
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR
+rule_id: 1721898565f5a5da6fcc5dcec777c0cf3b29deea52

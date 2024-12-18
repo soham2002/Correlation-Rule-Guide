@@ -1,0 +1,45 @@
+_id: 5ba8bd361226a4ac3288b5741da1bd50
+name: TI09160 Kerberos Account Enumeration
+index: logvehere-probe-*
+filter:
+  - term:
+      payload.kerberos_headers.error_code: '6'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+owner: vnfsadmin
+shared: false
+priority: 0
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: metric_aggregation
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: true
+description: >-
+  This rule detects attempts to enumerate valid Domain Users via Kerberos protocol. Specifically this rules checks that the domain controller to which the request was made does not host the account.
+
+  Adversaries may attempt to get a listing of domain accounts. This information can help adversaries determine which domain accounts exist to aid in follow-on behavior such as targeting specific accounts which possess particular privileges.
+metric_agg_key: payload.kerberos_headers.error_code
+metric_agg_type: value_count
+max_threshold: 20
+query_key:
+- network.src_ip
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 17218985655ba8bd361226a4ac3288b5741da1bd50

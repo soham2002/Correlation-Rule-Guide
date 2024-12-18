@@ -1,0 +1,43 @@
+_id: ba52ff0d48e08107398aab20152c59b2
+name: TI10007 Blacklisted SSL-fingerprint
+index: logvehere-probe-*
+type: any
+filter:
+  - term:
+      payload.sslhash_alert: sslfingerprint
+alert_transport: []
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 0
+timestamp_field: '@timestamp'
+description: >-
+  This rule is used for detection of ja3 fingerprint taken over SSL fields of
+  SSL certificate seen in malicious traffic. JA3 with JA3S is a method to
+  fingerprint the TLS negotiation between client and server. This combined
+  fingerprinting can assist in producing higher fidelity identification of the
+  encrypted communication between a specific client and its server.
+compare_key: payload.tls_client_fingerprint
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+owned: true
+enable_response: false
+match_bucket_filter: []
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565ba52ff0d48e08107398aab20152c59b2

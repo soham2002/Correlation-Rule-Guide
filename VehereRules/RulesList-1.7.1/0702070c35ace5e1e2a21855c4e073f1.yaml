@@ -1,0 +1,47 @@
+_id: 0702070c35ace5e1e2a21855c4e073f1
+name: TI08104 Telnet Brute Force Attempt
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            session.protocol: telnet
+        - match_phrase:
+            payload.incorrect_login_attempt: Login incorrect
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 1
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: metric_aggregation
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: true
+metric_agg_key: payload.incorrect_login_attempts_count
+metric_agg_type: sum
+max_threshold: 1000
+query_key:
+- network.src_ip
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+description: >-
+  This rule detects when an attacker is trying to guess login credentials to gain access to the system. This is a series of short TCP connections consistent with an attempt at brute-force password cracking through repeated logins.
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 17218985650702070c35ace5e1e2a21855c4e073f1

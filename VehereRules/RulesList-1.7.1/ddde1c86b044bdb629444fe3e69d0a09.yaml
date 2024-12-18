@@ -1,0 +1,46 @@
+_id: ddde1c86b044bdb629444fe3e69d0a09
+alert_transport: []
+description: >-
+  This rule detects a file upload vulnerability in Oracle WebLogic
+  (CVE-2018-2894)
+enable_response: false
+filter:
+  - bool:
+      should:
+        - wildcard:
+            payload.http_get.keyword: '*/ws_utc/css/config/keystore/*.jsp'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI04013 Oracle WebLogic Exploit
+owner: vnfsadmin
+priority: 0
+shared: false
+tags:
+  - attack.t1100
+  - attack.t1190
+  - attack.initial_access
+  - attack.persistence
+  - cve.2018-2894
+  - attack.t1505.003
+timestamp_field: '@timestamp'
+type: any
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR
+rule_id: 1721898565ddde1c86b044bdb629444fe3e69d0a09

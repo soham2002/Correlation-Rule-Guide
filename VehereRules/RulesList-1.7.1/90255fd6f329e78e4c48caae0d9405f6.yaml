@@ -1,0 +1,39 @@
+_id: 90255fd6f329e78e4c48caae0d9405f6
+name: TI01107 Large Fragments in a Flow
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - range:
+            network.max_frag_data_length:
+              gt: '1480'
+        - range:
+            session.total_packets:
+              gt: '44'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rule detects when an attacker is trying to gather information about the
+  machine by sending an IP packet with an invalid fragmentation value and that
+  would cause the packet to exceed the maximum packet length.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 172189856590255fd6f329e78e4c48caae0d9405f6

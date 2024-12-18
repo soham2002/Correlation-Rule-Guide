@@ -1,0 +1,53 @@
+_id: 74fc09ad15adf33dca89ea255f430025
+alert_transport: []
+description: >-
+  This rule detects an authentication bypass affecting pages in the management
+  interface of BIG-IP's F5 product line and when attacker sends a specifically
+  crafted HTTP request to the server hosting the Traffic Management User
+  Interface (TMUI) utility for BIG-IP configuration
+enable_response: false
+filter:
+  - bool:
+      must:
+        - bool:
+            should:
+              - wildcard:
+                  payload.http_get.keyword: '*/tmui/*'
+              - wildcard:
+                  payload.http_get.keyword: '*/hsqldb*'
+        - bool:
+            should:
+              - wildcard:
+                  payload.http_get.keyword: '*..;/*'
+              - wildcard:
+                  payload.http_get.keyword: '*.jsp/..*'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI04002 CVE-2020-5902 F5 BIG-IP Exploitation Attempt
+owner: vnfsadmin
+priority: 0
+shared: false
+tags:
+  - attack.initial_access
+  - attack.t1190
+timestamp_field: '@timestamp'
+type: any
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR
+rule_id: 172189856574fc09ad15adf33dca89ea255f430025

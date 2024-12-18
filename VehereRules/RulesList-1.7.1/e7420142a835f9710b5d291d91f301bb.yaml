@@ -1,0 +1,117 @@
+_id: e7420142a835f9710b5d291d91f301bb
+alert_transport: []
+description: >-
+  This rule detects suspicious user agent strings by various hacking tools such
+  as vulnerability scanners, bruteforce password crackers and exploitation
+  tools.
+enable_response: false
+filter:
+  - bool:
+      should:
+        - wildcard:
+            payload.user_agent.keyword: '*(hydra)*'
+        - term:
+            payload.user_agent.keyword: FHScan Core
+        - wildcard:
+            payload.user_agent.keyword: '*floodgate*'
+        - wildcard:
+            payload.user_agent.keyword: '*get-minimal*'
+        - wildcard:
+            payload.user_agent.keyword: '*gootkit auto-rooter scanner*'
+        - wildcard:
+            payload.user_agent.keyword: '*grendel-scan*'
+        - wildcard:
+            payload.user_agent.keyword: '* inspath *'
+        - wildcard:
+            payload.user_agent.keyword: '*internet ninja*'
+        - wildcard:
+            payload.user_agent.keyword: '*jaascois*'
+        - wildcard:
+            payload.user_agent.keyword: '* zmeu *'
+        - wildcard:
+            payload.user_agent.keyword: '*masscan*'
+        - wildcard:
+            payload.user_agent.keyword: '* metis *'
+        - wildcard:
+            payload.user_agent.keyword: '*morfeus fucking scanner*'
+        - wildcard:
+            payload.user_agent.keyword: '*n-stealth*'
+        - wildcard:
+            payload.user_agent.keyword: '*nsauditor*'
+        - wildcard:
+            payload.user_agent.keyword: '*pmafind*'
+        - wildcard:
+            payload.user_agent.keyword: '*security scan*'
+        - wildcard:
+            payload.user_agent.keyword: '*springenwerk*'
+        - wildcard:
+            payload.user_agent.keyword: '*teh forest lobster*'
+        - wildcard:
+            payload.user_agent.keyword: '*toata dragostea*'
+        - wildcard:
+            payload.user_agent.keyword: '* vega/*'
+        - wildcard:
+            payload.user_agent.keyword: '*voideye*'
+        - wildcard:
+            payload.user_agent.keyword: '*webshag*'
+        - wildcard:
+            payload.user_agent.keyword: '*webvulnscan*'
+        - wildcard:
+            payload.user_agent.keyword: '* whcc/*'
+        - wildcard:
+            payload.user_agent.keyword: '* Havij'
+        - wildcard:
+            payload.user_agent.keyword: '*absinthe*'
+        - wildcard:
+            payload.user_agent.keyword: '*bsqlbf*'
+        - wildcard:
+            payload.user_agent.keyword: '*mysqloit*'
+        - wildcard:
+            payload.user_agent.keyword: '*pangolin*'
+        - wildcard:
+            payload.user_agent.keyword: '*sql power injector*'
+        - wildcard:
+            payload.user_agent.keyword: '*sqlmap*'
+        - wildcard:
+            payload.user_agent.keyword: '*sqlninja*'
+        - wildcard:
+            payload.user_agent.keyword: '*uil2pn*'
+        - term:
+            payload.user_agent.keyword: ruler
+        - term:
+            payload.user_agent.keyword: >-
+              Mozilla/5.0 (Windows; U; Windows NT 5.1; pt-PT; rv:1.9.1.2)
+              Gecko/20090729 Firefox/3.5.2 (.NET CLR 3.5.30729)
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI03028 Hack Tool User Agent
+owner: vnfsadmin
+priority: 1
+shared: false
+tags:
+  - attack.initial_access
+  - attack.t1190
+  - attack.credential_access
+  - attack.t1110
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565e7420142a835f9710b5d291d91f301bb

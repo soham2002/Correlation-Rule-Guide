@@ -1,0 +1,62 @@
+_id: a6f53e1da7b479ef213a43594d9d2b29
+alert_transport: []
+description: >-
+  This rule detects direct access to raw pastes in different paste services
+  often used by malware in their second stages to download malicious code in
+  encrypted or encoded form.
+
+
+  Multiple malware campaigns have been spotted using Pastebin-style services to
+  facilitate their nefarious activities.
+
+
+  Instead of delivering payload from a dedicated Command-and-Control (C&C)
+  server, paste sites enable attackers to hide their malicious code in plain
+  sight.
+enable_response: false
+filter:
+  - bool:
+      should:
+        - wildcard:
+            payload.http_get.keyword: '*.paste.ee/r/*'
+        - wildcard:
+            payload.http_get.keyword: '*.pastebin.com/raw/*'
+        - wildcard:
+            payload.http_get.keyword: '*.hastebin.com/raw/*'
+        - wildcard:
+            payload.http_get.keyword: '*.ghostbin.co/paste/*/raw/*'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI03016 Raw Paste Service Access
+owner: vnfsadmin
+priority: 3
+shared: false
+tags:
+  - attack.command_and_control
+  - attack.t1071.001
+  - attack.t1043
+  - attack.t1102.001
+  - attack.t1102.003
+  - attack.defense_evasion
+  - attack.t1102
+timestamp_field: '@timestamp'
+type: any
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565a6f53e1da7b479ef213a43594d9d2b29

@@ -1,0 +1,50 @@
+shared: false
+correlation_param: network.src_ip
+buffer_time:
+  minutes: 15
+type: metric_aggregation
+metric_agg_type: cardinality
+scheduler: "* * * * *"
+is_enabled: true
+description: This rule detects sequence of activities associated with Eris Ransomware.
+alert:
+  - lsalert
+_id: b26eeeafb564aecb8f00ddffcc81f996 
+alert_transport: []
+owner: vnfsadmin
+max_threshold: 1
+ls_output_file_path: "/var/log/ruleengine/vnfsalert.json"
+metric_agg_key: rule_name
+enable_response: false
+index: vnfs-alert-status
+timestamp_field: "@timestamp"
+priority: 0
+filter:
+- bool:
+    should:
+    - bool:
+        must:
+        - term:
+            rule_name: TI10172 Onion Host Detected 
+        - term:
+            alert_sent: true
+    - bool:
+        must:
+        - term:
+            rule_name: TI10170 Bat File Download From Non Standard Port
+        - term:
+            alert_sent: true
+    - bool:
+        must:
+        - term:
+            rule_name: TI10166 Executable Download from IP address
+        - term:
+            alert_sent: true
+
+name: TI10176 Eris Ransomware
+alert_enabled: true 
+query_key:
+- correlation_param
+
+# earlier condition - rule_name: CHILD_6 Exe Download from Non Standard HTTP Port
+rule_id: 1721898565b26eeeafb564aecb8f00ddffcc81f996

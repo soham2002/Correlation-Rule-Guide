@@ -1,0 +1,27 @@
+_id: bca5e5277f7ffbc7933eab6d323390af
+name: TI10172 Onion Host Detected
+index: logvehere-probe-*
+filter:
+  - wildcard:
+      payload.http_host.keyword: '*.onion.pet'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin 
+priority: 3
+enable_response: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.txt
+description: This rule detects onion.pet url in HTTP host.
+alert_enabled: false
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+rule_id: 1721898565bca5e5277f7ffbc7933eab6d323390af
+correlation_param: network.src_ip

@@ -1,0 +1,54 @@
+_id: b35e61c70a91dceff28372d4b76d3332
+name: TI10133 SID enumeration via LSA service SMBv2 Lateral Movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.msrpc_bind_iface_uuid: 123457781234abcdef000123456789ab
+        - match_phrase:
+            payload.smb_headers.msrpc_opnum: '44'
+        - match_phrase:
+            payload.smb_headers.smb2_command: Tree Connect
+        - match_phrase:
+            payload.smb_headers.smb2_filename: lsarpc
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+
+
+
+description: >-
+  This rule detects SID enumeration using LSA service
+
+
+  The “Local System Authority” is the system service that handles
+  authentication, security policy enforcement etc. Even windows object like
+  machines, users etc have a security identifier or SID.
+
+
+  Enumerating SID’s is one way for attackers to enumerate users, in addition in
+  cases of attacker like the “Golden Ticket” attack gathering the domain SID is
+  critical.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565b35e61c70a91dceff28372d4b76d3332

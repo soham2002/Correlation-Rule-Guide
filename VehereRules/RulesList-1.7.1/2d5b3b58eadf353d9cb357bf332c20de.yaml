@@ -1,0 +1,65 @@
+_id: 2d5b3b58eadf353d9cb357bf332c20de
+alert_transport: []
+description: >-
+  This rule detects abuse of Telegram APIs like Telecrypt.
+
+  Attackers use the TeleGram API to send the information of its victims straight to the Ransomware creator.
+
+  The Telegram Bot API is based on HTTP. To a network administrator the communication between the infected computer and the attackers will look like HTTP(S) communication with a legitimate server, specifically api.telegram.org.
+enable_response: false
+filter:
+  - bool:
+      must:
+        - bool:
+            must:
+              - exists:
+                  field: payload.user_agent
+        - bool:
+            must_not:
+              wildcard:
+                payload.user_agent.keyword: '*Telegram*'
+        - bool:
+            must_not:
+              wildcard:
+                payload.user_agent.keyword: '*Bot*'
+        - bool:
+            should:
+              - term:
+                  network.detected_names.keyword: api.telegram.org
+              - term:
+                  payload.http_host.keyword: api.telegram.org
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI03026 Telegram API Access
+owner: vnfsadmin
+priority: 2
+shared: false
+tags:
+  - attack.defense_evasion
+  - attack.command_and_control
+  - attack.t1071.001
+  - attack.t1043
+  - attack.t1102.002
+  - attack.t1102
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 17218985652d5b3b58eadf353d9cb357bf332c20de

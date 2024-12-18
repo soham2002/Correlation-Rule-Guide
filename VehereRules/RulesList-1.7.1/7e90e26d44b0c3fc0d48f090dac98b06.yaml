@@ -1,0 +1,55 @@
+_id: 7e90e26d44b0c3fc0d48f090dac98b06
+name: TI08084 ICMP Unreachable Port
+index: logvehere-probe-*
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  payload.icmp_code: '3'
+              - term:
+                  payload.icmp_type: '3'
+        - bool:
+            must:
+              - wildcard:
+                  session.dpi_protocol.keyword: '*netflow*'
+              - term:
+                  session.icmp_type: '771'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+timestamp_field: '@timestamp'
+type: metric_aggregation
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+description: >-
+  This rule detects MITM attack, where the attacker is trying to forge
+  ICMP-redirect packets in order to redirect traffic to itself which eventually
+  results in gathering all data passing through it.
+metric_agg_key: session.id
+metric_agg_type: value_count
+max_threshold: 25
+query_key:
+- network.src_ip
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 17218985657e90e26d44b0c3fc0d48f090dac98b06

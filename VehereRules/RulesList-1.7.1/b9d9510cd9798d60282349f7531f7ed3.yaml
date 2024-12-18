@@ -1,0 +1,41 @@
+_id: b9d9510cd9798d60282349f7531f7ed3 
+name: TI10167 Post to Image
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - wildcard:
+            payload.http_get.keyword: POST*
+  - bool:
+      should:
+        - wildcard:
+            payload.http_get.keyword: '*.png'
+        - wildcard:
+            payload.http_get.keyword: '*.gif'
+        - wildcard:
+            payload.http_get.keyword: '*.jpeg'
+        - wildcard:
+            payload.http_get.keyword: '*.jpg'
+        - wildcard:
+            payload.http_get.keyword: '*.bmp'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.txt
+description: This rule detects post requests to image files.
+alert_enabled: false
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+rule_id: 1721898565b9d9510cd9798d60282349f7531f7ed3
+correlation_param: network.src_ip

@@ -1,0 +1,52 @@
+_id: 929bea15c720f670387758b8168ac13f
+name: TI01082 ICMP Unreachable Network
+index: logvehere-probe-*
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  payload.icmp_code: '0'
+              - term:
+                  payload.icmp_type: '3'
+        - bool:
+            must:
+              - wildcard:
+                  session.dpi_protocol.keyword: '*netflow*'
+              - term:
+                  session.icmp_type: '768'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+timestamp_field: '@timestamp'
+type: metric_aggregation
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+description: >-
+  This rule detects when the source host has received an ICMP message that "the
+  target network is unreachable."
+metric_agg_key: session.id
+metric_agg_type: value_count
+max_threshold: 5
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 1721898565929bea15c720f670387758b8168ac13f

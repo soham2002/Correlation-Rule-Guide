@@ -1,0 +1,44 @@
+_id: a460a119c681e2f907a5d3e44bce9c61
+name: TI01076 ICMP Destination Host prohibited by Admin sFlow
+index: logvehere-probe-*
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  session.icmp_code: '10'
+              - term:
+                  session.icmp_type: '3'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+timestamp_field: '@timestamp'
+type: metric_aggregation
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+description: >-
+  This rule detects when the source host has received an ICMP message
+  stating that the "destination host is administratively prohibited."
+metric_agg_key: session.id
+metric_agg_type: value_count
+max_threshold: 2
+query_key:
+- network.dst_ip
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+# PROBE_NETFLOW_NDR_NF
+rule_id: 1721898565a460a119c681e2f907a5d3e44bce9c61

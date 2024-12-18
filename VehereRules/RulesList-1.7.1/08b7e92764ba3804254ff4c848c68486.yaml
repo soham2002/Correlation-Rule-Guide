@@ -1,0 +1,54 @@
+_id: 08b7e92764ba3804254ff4c848c68486
+name: TI14109 ICMP Fragmentation needed DF set
+index: logvehere-probe-*
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  payload.icmp_type: '3'
+              - term:
+                  payload.icmp_code: '4'
+        - bool:
+            must:
+              - wildcard:
+                  session.dpi_protocol.keyword: '*netflow*'
+              - term:
+                  session.icmp_type: '772'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: metric_aggregation
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+description: >-
+  This rule detects icmp packets where payload needs to be fragmented but the
+  Don't Fragment (DF) bit is set, which indicates that the host is being
+  targeted with IP fragmentation attack.
+metric_agg_key: session.id
+metric_agg_type: value_count
+max_threshold: 128
+query_key:
+- network.src_ip
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+
+alert:
+  - lsalert
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 172189856508b7e92764ba3804254ff4c848c68486

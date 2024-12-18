@@ -1,0 +1,50 @@
+_id: decce768cdb19e6665da94248df66199
+alert_transport: []
+description: >-
+  This rule detects DNS beacons sent out by the Cobalt Strike framework from an
+  infiltrated host to the main Cobalt Strike host. DNS C2 leverages malicious
+  DNS TXT and A RRs (resource records) queries which traverse standard recursive
+  DNS channels and terminate at an attacker’s authoritative DNS server. The
+  traversal of standard DNS channels make this technique effective for highly
+  controlled environments where restrictive firewall, web filter or proxy
+  policies are enforced; for example, in point of sale (POS) networks in the
+  retail and hospitality sector, as well as other high-security financial
+  transaction environments.
+enable_response: false
+filter:
+  - bool:
+      must:
+        - term:
+            payload.dns_headers.dns_record_type: 16
+        - bool:
+            should:
+              - regexp:
+                  payload.dns_domain_names.keyword: '*aaa.stage.*'
+              - regexp:
+                  payload.dns_domain_names.keyword: '*post.1*'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI01059 Cobalt Strike DNS Beaconing
+owner: vnfsadmin
+priority: 0
+shared: false
+tags:
+  - attack.command_and_control
+  - attack.t1071
+  - attack.t1071.004
+timestamp_field: '@timestamp'
+type: any
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+alert:
+  - lsalert
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565decce768cdb19e6665da94248df66199

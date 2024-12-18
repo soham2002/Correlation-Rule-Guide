@@ -1,0 +1,33 @@
+_id: 98171ce1795c6110b40b12b796073e65 
+name: TI07168 Old TLS version Detected
+index: logvehere-probe-*
+filter:
+  - bool:
+      should:
+        - term:
+            payload.ssl_version.keyword: TLS 1.0
+        - term:
+            payload.ssl_version.keyword: TLS 1.1
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin 
+priority: 3
+enable_response: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.txt
+description: >-
+  This rule detects the old TLS versions.
+
+  TLS 1.0 and TLS 1.1 are the older versions and these versions are unsafe for organizations to tackle today's cybersecurity issues. TLS 1.2 and 1.3 are the newest versions.  
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+rule_id: 172189856598171ce1795c6110b40b12b796073e65
+correlation_param: network.src_ip

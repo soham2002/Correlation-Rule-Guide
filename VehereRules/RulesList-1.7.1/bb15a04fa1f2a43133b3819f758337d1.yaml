@@ -1,0 +1,59 @@
+_id: bb15a04fa1f2a43133b3819f758337d1
+alert_transport: []
+description: >-
+  This rule detects HTTP indicators for Malleable C2 profile that could
+  transform and store data, also extract data from a transaction.
+enable_response: false
+filter:
+  - bool:
+      must:
+        - term:
+            payload.user_agent.keyword: >-
+              Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like
+              Gecko
+        - term:
+            payload.http_host.keyword: www.amazon.com
+        - bool:
+            should:
+              - bool:
+                  must:
+                    - term:
+                        payload.http_get: >-
+                          /s/ref=nb_sb_noss_1/167-3294888-0262949/field-keywords=books
+                    - wildcard:
+                        payload.http_cookie: '*=csm-hit=s-24KU11BB82RZSYGJ3BDK|1419899012996'
+              - wildcard:
+                  payload.http_get.keyword: '*/N4215/adj/amzn.us.sr.aps*'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI03031 CobaltStrike Malleable Amazon Browsing Traffic Profile
+owner: vnfsadmin
+priority: 1
+shared: false
+tags:
+  - attack.defense_evasion
+  - attack.command_and_control
+  - attack.t1071.001
+  - attack.t1043
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565bb15a04fa1f2a43133b3819f758337d1

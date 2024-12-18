@@ -1,0 +1,49 @@
+_id: 956b86bc70e098ca81ec8ca8be1d98eb
+name: TI10139 Remote Registry RunServices Key smbv2 Lateral Movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.smb2_command: Tree Connect
+        - match_phrase:
+            payload.smb_headers.msrpc_opnum: '22'
+        - match_phrase:
+            payload.smb_headers.msrpc_key_name: Software\\Microsoft\\Windows\\CurrentVersion
+        - match_phrase:
+            payload.smb_headers.msrpc_pkt_type: OpenHKLM
+        - match_phrase:
+            payload.smb_headers.msrpc_key_file: LaunchProg
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+
+
+
+description: >-
+  This rule indicates remote modification of registry key using RunServices key.
+
+  The “RunServices” key controls what services comes up in the background once the system boots up.
+
+  This key is used by the malware to achieve persistence.
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565956b86bc70e098ca81ec8ca8be1d98eb

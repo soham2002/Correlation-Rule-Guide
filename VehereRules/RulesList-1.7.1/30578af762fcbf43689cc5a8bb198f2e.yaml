@@ -1,0 +1,53 @@
+_id: 30578af762fcbf43689cc5a8bb198f2e
+name: TI10130 User Enumeration using SRVSVC service SMBv1 Lateral movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.msrpc_bind_iface_uuid: 4b324fc8167001d312785a47bf6ee188
+        - match_phrase:
+            payload.smb_headers.msrpc_opnum: '12'
+        - match_phrase:
+            payload.smb_headers.smb_command: Tree Connect AndX
+        - match_phrase:
+            payload.smb_headers.smb_filename: srvsvc
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+
+
+
+description: >-
+  This rule detects User Enumeration using the SRVSVC service.
+
+
+  The “Server Service” or SRVSVC is a windows system service that provides
+  server-side information to a client. This information could be about the
+  network adapters on the machine, the shares on the machine etc.
+
+
+  User enumeration via SRVSVC is a way for attackers to find out the active user
+  sessions on the machine.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 172189856530578af762fcbf43689cc5a8bb198f2e

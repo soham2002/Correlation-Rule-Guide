@@ -1,0 +1,51 @@
+_id: 018a9bd51178e0c546d13842e5b1f8a6
+name: TI10136 SCMR Enable Remote Registry access service SMBv1 Lateral Movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.msrpc_bind_iface_uuid: 367abb81984435f1ad3298f038001003
+        - match_phrase:
+            payload.smb_headers.msrpc_opnum: '16'
+        - match_phrase:
+            payload.smb_headers.msrpc_service_name: RemoteRegistry
+        - match_phrase:
+            payload.smb_headers.msrpc_pkt_type: OpenServiceW
+        - match_phrase:
+            payload.smb_headers.smb_command: Tree Connect AndX
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+
+
+
+description: >-
+  This rule detects remote registry being accessed using SCMR.
+
+  The “Service Control Manager” or SCMR is a core Windows component in charge of bringing up Windows services. The SCMR can be remotely controlled to start or stop services.
+
+  Attackers with sufficient privilege can upload malicious exe and launch them as a service or they could enable services that would allow them more privileged access like the “Remote Registry” service.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565018a9bd51178e0c546d13842e5b1f8a6

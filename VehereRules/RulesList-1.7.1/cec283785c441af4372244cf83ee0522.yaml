@@ -1,0 +1,40 @@
+_id: cec283785c441af4372244cf83ee0522
+name: TI04147 Apache Common Text Library Vulnerability CVE-2022-42889
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - regexp:
+            payload.http_get.keyword: >-
+              .*%7bscript%3ajavascript%3ajava%2elang%2eRuntime%2egetRuntime%28%29%2eexec%28%27.*
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 0
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rule detects vulnerability in Apache Common Text Library. It is a common
+  Java library that provides utilities to work with strings.
+
+
+  The vulnerability can be exploited by sending a crafted payload remotely using
+  "script", "dns" and "url" lookups to achieve arbitrary remote code execution.
+
+
+  Successful exploitation of the vulnerability may result in arbitrary code
+  execution.
+
+alert:
+  - lsalert
+
+
+
+# PROBE_NDR
+rule_id: 1721898565cec283785c441af4372244cf83ee0522

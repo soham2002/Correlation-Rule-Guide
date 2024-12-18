@@ -1,0 +1,47 @@
+_id: ce5f91d6be20d0a223967fe0024d6aaf
+name: TI10129 User Enumeration using WKSSVC service SMBv2 Lateral movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.msrpc_bind_iface_uuid: 6bffd098a1123610983346c3f87e345a
+        - match_phrase:
+            payload.smb_headers.msrpc_opnum: '2'
+        - match_phrase:
+            payload.smb_headers.smb2_filename: wkssvc
+        - match_phrase:
+            payload.smb_headers.smb2_command: Tree Connect
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+
+
+
+description: >-
+  This rule detects User Enumeration using the WKSSVC service.
+
+  The “WorkStation Service” or WKSSVC is the Windows service that primarily provides file and print access services. When trying to access a remote file or a printer the WKSSVC service is in connection with, the SMB drivers locate the resource being accessed and redirect all requests to that resource.
+
+  This service can be queried to enumerate user account on a machine.
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565ce5f91d6be20d0a223967fe0024d6aaf

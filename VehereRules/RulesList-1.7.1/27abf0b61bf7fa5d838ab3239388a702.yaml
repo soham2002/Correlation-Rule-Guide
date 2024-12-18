@@ -1,0 +1,44 @@
+_id: 27abf0b61bf7fa5d838ab3239388a702
+name: TI01077 ICMP Destination Host Unknown
+index: logvehere-probe-*
+type: any
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  payload.icmp_code: 7
+              - term:
+                  payload.icmp_type: '3'
+        - bool:
+            must:
+              - wildcard:
+                  session.dpi_protocol.keyword: '*netflow*'
+              - term:
+                  session.icmp_type: '775'
+alert_transport: []
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+timestamp_field: '@timestamp'
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+description: >-
+  This rule detects when source host has received an ICMP message that a
+  "destination host unknown" error has occurred.
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 172189856527abf0b61bf7fa5d838ab3239388a702

@@ -1,0 +1,38 @@
+_id: a87765126f54b6dab54eb22f03daf06a
+name: TI05154 Windows ProxyShell Vulnerability
+index: logvehere-probe-*
+filter:
+  - wildcard:
+      payload.http_get.keyword: '*/autodiscover/autodiscover\.json\?*'
+  - wildcard:
+      payload.http_get.keyword: '*/EWS/exchange\.asmx*'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 0
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rule detects Windows Proxy Shell vulnerability. ProxyShell is the name
+  assigned to an exploit chain that trigger’s three vulnerabilities in Microsoft
+  Exchange Server in order to gain complete remote control of the affected
+  Exchange Server.
+  The CVE’s identified are CVE-2021-34473, CVE-2021-34523 and CVE-2021-31207
+  when combined together, as done in ProxyShell exploit, can be chained to gain
+  remote code execution on affected Microsoft Exchange Servers.
+  Successful exploitation of these vulnerabilities can lead to arbitrary writing
+  of files that an attacker can leverage to upload web shells on a target
+  exchange server.
+alert:
+  - lsalert
+
+
+
+# PROBE_NDR
+rule_id: 1721898565a87765126f54b6dab54eb22f03daf06a

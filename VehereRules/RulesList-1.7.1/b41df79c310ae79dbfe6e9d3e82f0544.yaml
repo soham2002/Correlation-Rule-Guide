@@ -1,0 +1,58 @@
+_id: b41df79c310ae79dbfe6e9d3e82f0544
+name: TI01093 Port Scan TCP
+index: logvehere-probe-*
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  session.client_tcp_initial_flags.keyword: S
+              - term:
+                  session.server_tcp_initial_flags.keyword: AR
+        - bool:
+            must:
+              - term:
+                  session.netflow_tcp_flags.keyword: ARS
+              - term:
+                  session.total_packets: '2'
+        - bool:
+            must:
+              - term:
+                  session.flow_tcp_flags.keyword: ARS
+              - term:
+                  session.total_packets: '2'
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+timestamp_field: '@timestamp'
+type: metric_aggregation
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+description: >-
+  This rule detects TCP Scan. When this is done by an outside host, it can be
+  the precursor to attempts at exploitation. When the scan is done by an inside
+  host, it is a compromised host trying to move laterally within an
+  organization's network.
+metric_agg_type: cardinality
+metric_agg_key: transport.dst_port
+max_threshold: 20
+query_key:
+- network.dst_ip
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+scheduler: '* * * * *'
+alert:
+  - lsalert
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 1721898565b41df79c310ae79dbfe6e9d3e82f0544

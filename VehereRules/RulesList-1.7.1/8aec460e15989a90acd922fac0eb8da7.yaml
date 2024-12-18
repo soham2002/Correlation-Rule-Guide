@@ -1,0 +1,52 @@
+_id: 8aec460e15989a90acd922fac0eb8da7
+alert_transport: []
+description: >-
+  This rule detects communication with domains operated by kill switch, which are affected by WannaCry author. The kill switch is a URL, when active it causes the malware to go dormant.
+enable_response: false
+filter:
+  - bool:
+      should:
+        - term:
+            session.url.keyword: ifferfsodp9ifjaposdfjhgosurijfaewrwergwea.testing
+        - term:
+            session.url.keyword: ifferfsodp9ifjaposdfjhgosurijfaewrwergwea.test
+        - term:
+            session.url.keyword: iuqssfsodp9ifjaposdfjhgosurijfaewrwergwea.test
+        - term:
+            session.url.keyword: ifferfsodp9ifjaposdfjhgosurijfaewrwergwea.com
+        - term:
+            session.url.keyword: ayylmaotjhsstasdfasdfasdfasdfasdfasdfasdf.com
+        - term:
+            session.url.keyword: iuqssfsodp9ifjaposdfjhgosurijfaewrwergwea.com
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI01057 Wannacry Killswitch Domain sFlow
+owner: vnfsadmin
+priority: 1
+shared: false
+tags:
+  - attack.command_and_control
+  - attack.t1071.001
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR
+rule_id: 17218985658aec460e15989a90acd922fac0eb8da7

@@ -1,0 +1,38 @@
+_id: 321395dc055328fc923439d80fea1c26
+name: TI02152 Gozi Malware SMB Traffic detected
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.smb2_command.keyword: Tree Connect
+        - match_phrase:
+            payload.smb_headers.smb2_path: \\\\46.8.19.163\\mise
+        - match_phrase:
+            payload.smb_headers.smb2_filename.keyword: server.exe
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 1
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rule detects the Gozi malware traffic. Gozi malware is a trojan which has
+  a lot of obfuscation techniques.
+
+
+  It has been used in healthcare and banking industries.
+alert:
+  - lsalert
+
+
+
+
+# PROBE_NDR
+rule_id: 1721898565321395dc055328fc923439d80fea1c26

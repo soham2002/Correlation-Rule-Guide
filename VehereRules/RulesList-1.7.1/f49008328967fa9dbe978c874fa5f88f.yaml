@@ -1,0 +1,297 @@
+_id: f49008328967fa9dbe978c874fa5f88f
+alert_transport: []
+description: This rule detects downloads of files if the files comes from an unknown TLD
+enable_response: false
+filter:
+  - bool:
+      must:
+        - bool:
+            should:
+              - term:
+                  recon.file_types: exe
+              - term:
+                  recon.file_types: vbs
+              - term:
+                  recon.file_types: bat
+              - term:
+                  recon.file_types: rar
+              - term:
+                  recon.file_types: ps1
+              - term:
+                  recon.file_types: doc
+              - term:
+                  recon.file_types: docm
+              - term:
+                  recon.file_types: xls
+              - term:
+                  recon.file_types: xlsm
+              - term:
+                  recon.file_types: pptm
+              - term:
+                  recon.file_types: rtf
+              - term:
+                  recon.file_types: hta
+              - term:
+                  recon.file_types: dll
+              - term:
+                  recon.file_types: ws
+              - term:
+                  recon.file_types: wsf
+              - term:
+                  recon.file_types: sct
+              - term:
+                  recon.file_types: zip
+              - term:
+                  recon.file_types: xlsx
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.com'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.org'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.net'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.edu'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.gov'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.uk'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.ca'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.de'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.jp'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.fr'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.au'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.us'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.ch'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.it'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.nl'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.se'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.no'
+        - bool:
+            must_not:
+              wildcard:
+                payload.http_host.keyword: '*.es'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.com'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.org'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.net'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.edu'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.gov'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.uk'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.ca'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.de'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.jp'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.fr'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.au'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.us'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.ch'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.it'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.nl'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.se'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.no'
+        - bool:
+            must_not:
+              wildcard:
+                network.dst_host.keyword: '*.es'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.com'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.org'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.net'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.edu'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.gov'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.uk'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.ca'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.de'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.jp'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.fr'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.au'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.us'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.ch'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.it'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.nl'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.se'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.no'
+        - bool:
+            must_not:
+              wildcard:
+                network.src_host.keyword: '*.es'
+index: logvehere-probe-*
+is_enabled: true
+name: TI03021 Download from unknown TLDs
+owner: vnfsadmin
+priority: 1
+shared: false
+tags:
+  - attack.initial_access
+  - attack.t1566
+  - attack.execution
+  - attack.t1203
+  - attack.t1204.002
+  - attack.t1204
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565f49008328967fa9dbe978c874fa5f88f
+correlation_param: network.src_ip

@@ -1,0 +1,49 @@
+_id: 870e05bc7cc115254ed404294ece589c
+alert_transport: []
+description: >-
+  This rule detects DNS TXT responses which may contain commands to be executed
+  at the client side.
+enable_response: false
+filter:
+  - bool:
+      must:
+        - term:
+            payload.dns_headers.dns_record_type: 16
+        - bool:
+            should:
+              - wildcard:
+                  payload.dns_headers.txt_data: '*IEX*'
+              - wildcard:
+                  payload.dns_headers.txt_data: '*Invoke-Expression*'
+              - wildcard:
+                  payload.dns_headers.txt_data: '*cmd.exe*'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI01074 DNS TXT Answer with Possible Execution Strings
+owner: vnfsadmin
+priority: 0
+shared: false
+tags:
+  - attack.command_and_control
+  - attack.t1071
+  - attack.t1071.004
+timestamp_field: '@timestamp'
+type: any
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565870e05bc7cc115254ed404294ece589c

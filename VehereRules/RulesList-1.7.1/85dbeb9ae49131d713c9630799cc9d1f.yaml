@@ -1,0 +1,48 @@
+shared: false
+correlation_param: network.src_ip
+buffer_time:
+  minutes: 15
+type: metric_aggregation
+metric_agg_type: cardinality
+scheduler: "* * * * *"
+is_enabled: true
+alert:
+  - lsalert
+_id: 85dbeb9ae49131d713c9630799cc9d1f 
+alert_transport: []
+owner: vnfsadmin
+max_threshold: 2
+ls_output_file_path: "/var/log/ruleengine/vnfsalert.json"
+metric_agg_key: rule_name
+enable_response: false
+index: vnfs-alert-status
+timestamp_field: "@timestamp"
+priority: 0
+filter:
+- bool:
+    should:
+    - bool:
+        must:
+        - term:
+            rule_name: TI03021 Download from unknown TLDs
+        - term:
+            alert_sent: true
+    - bool:
+        must:
+        - term:
+            rule_name: TI07168 Old TLS version Detected
+        - term:
+            alert_sent: true
+    - bool:
+        must:
+        - term:
+            rule_name: TI10171 HTTPS Protocol On Non Standard Port
+        - term:
+            alert_sent: true
+name: TI10175 SocGholish Malware
+alert_enabled: true
+query_key:
+- correlation_param
+
+description: This rule detects sequence of activities associated with SocGholish Malware.
+rule_id: 172189856585dbeb9ae49131d713c9630799cc9d1f

@@ -1,0 +1,43 @@
+_id: ae85425398c291d30bfe9d26f5df1182
+name: TI01092 ARP Scan
+index: logvehere-probe-*
+type: metric_aggregation
+filter:
+  - bool:
+      must:
+        - term:
+            session.protocol: arp
+        - term:
+            payload.arp_headers.opcode: '1'
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+timestamp_field: '@timestamp'
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+query_key:
+- payload.arp_headers.sender_ip.keyword
+max_threshold: 512
+metric_agg_key: payload.arp_headers.target_ip.keyword
+metric_agg_type: cardinality
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+description: >-
+  This rule detects an ICMP scan, where the attacker is trying to find other
+  active hosts on a network, possibly for further investigation.
+
+alert:
+  - lsalert
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565ae85425398c291d30bfe9d26f5df1182

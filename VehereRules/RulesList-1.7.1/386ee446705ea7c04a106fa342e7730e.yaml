@@ -1,0 +1,54 @@
+_id: 386ee446705ea7c04a106fa342e7730e
+name: TI10144 Remote Task Scheduling Lateral Movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.msrpc_bind_version: '5'
+        - match_phrase:
+            payload.smb_headers.msrpc_bind_minor_version: '0'
+        - match_phrase:
+            payload.smb_headers.msrpc_bind_iface_uuid: 86d3594983c94044b424db363231fd0c
+        - match_phrase:
+            payload.smb_headers.msrpc_pkt_type: Bind
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+
+
+
+description: >-
+  Windows permits scheduling of tasks remotely. An attacker with sufficient
+  privilege can schedule any task on a remote computer.
+
+
+  In a commonly seen scenario, an attacker would upload an exe onto a share on a
+  remote host and then have this exe scheduled for execution.
+
+
+  Malware uses task schedule to defer execution of its malicious code for a
+  later time so that it's not detected by sandboxing solutions.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565386ee446705ea7c04a106fa342e7730e

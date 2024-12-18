@@ -1,0 +1,39 @@
+_id: d2f05191cd07e9056184cf68104a2a42
+name: TI01102 Invalid TCP Flags Detected in the flow
+index: logvehere-probe-*
+filter:
+  - exists:
+      field: transport.alert
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+
+
+
+description: >-
+  This alert indicates that the attacker is trying to gather information about
+  the machine into which intentionally the packet is sent with invalid TCP flags
+  set.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565d2f05191cd07e9056184cf68104a2a42

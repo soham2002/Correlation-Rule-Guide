@@ -1,0 +1,76 @@
+_id: 2ee4b08420148d551428d3125186b9ec
+name: TI01158 RDP Recon Activity Detected
+index: logvehere-probe-*
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  transport.dst_port: '3389'
+              - term:
+                  session.netflow_tcp_flags.keyword: ARS
+              - range:
+                  session.total_packets:
+                    lte: '2'
+        - bool:
+            must:
+              - term:
+                  transport.dst_port: '3389'
+              - term:
+                  session.flow_tcp_flags.keyword: ARS
+              - range:
+                  session.total_packets:
+                    lte: '2'
+        - bool:
+            must:
+              - term:
+                  transport.dst_port: '3389'
+              - term:
+                  session.client_tcp_initial_flags.keyword: S
+              - term:
+                  session.server_tcp_initial_flags.keyword: AR
+              - range:
+                  session.total_packets:
+                    lte: '2'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: metric_aggregation
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+metric_agg_key: network.dst_ip
+metric_agg_type: cardinality
+max_threshold: 20
+query_key:
+- transport.dst_port
+bucket_interval:
+  minutes: 1
+buffer_time:
+  minutes: 15
+description: >-
+  This Rule detects RDP reconnaissance. The attacker scans the systems with open
+  RDP ports and attempts to gain unauthorized access by identifying weak
+  credentials or exploiting known vulnerabilities.  Once successful, the
+  attacker may steal sensitive data, install malware, or use the compromised
+  system as a foothold for further attacks.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 17218985652ee4b08420148d551428d3125186b9ec

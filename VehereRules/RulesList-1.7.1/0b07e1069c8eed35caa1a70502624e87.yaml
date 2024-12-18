@@ -1,0 +1,68 @@
+_id: 0b07e1069c8eed35caa1a70502624e87
+name: TI01157 Port Sweep Activity Detected
+index: logvehere-probe-*
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  session.netflow_tcp_flags.keyword: ARS
+              - range:
+                  session.total_packets:
+                    lte: '2'
+        - bool:
+            must:
+              - term:
+                  session.flow_tcp_flags.keyword: ARS
+              - range:
+                  session.total_packets:
+                    lte: '2'
+        - bool:
+            must:
+              - term:
+                  session.client_tcp_initial_flags.keyword: S
+              - term:
+                  session.server_tcp_initial_flags.keyword: AR
+              - range:
+                  session.total_packets:
+                    lte: '2'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: metric_aggregation
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+metric_agg_key: network.dst_ip
+metric_agg_type: cardinality
+max_threshold: 20
+query_key:
+- transport.dst_port
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+description: >-
+  This rule detects Port Sweep. The Client IP is trying to connect to multiple
+  destination IPs on the same port which could indicate malicious intent
+  indicating the port sweep activity.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 17218985650b07e1069c8eed35caa1a70502624e87

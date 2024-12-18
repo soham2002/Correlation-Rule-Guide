@@ -1,0 +1,41 @@
+_id: e96428801a0d7b4e1ae212de404a598a
+name: TI04149 Zyxel Firewall Unauthenticated Command Injection CVE-2022-30525
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - term:
+            filter_names.keyword: Zyxel_Firewall_Post_Body_Data
+        - wildcard:
+            payload.http_get.keyword: '*/ztp/cgi-bin/handler*'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 0
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rule detects Unauthenticated command injection in Zyxel Firewall.
+
+
+  There exist an command injection vulnerability in the CGI program of few Zyxel
+  firewall versions which can allow an unauthenticated attacker to modify
+  specific files and then execute OS commands on a vulnerable device.
+
+
+  Successful exploitation of the vulnerability may result in command execution
+  on the vulnerable device.
+
+alert:
+  - lsalert
+
+
+
+# PROBE_NDR
+rule_id: 1721898565e96428801a0d7b4e1ae212de404a598a

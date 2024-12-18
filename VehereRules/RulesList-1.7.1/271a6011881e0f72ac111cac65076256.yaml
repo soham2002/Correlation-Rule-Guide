@@ -1,0 +1,48 @@
+_id: 271a6011881e0f72ac111cac65076256
+name: TI10122 Remote Registry System Services Key smbv1 Lateral Movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.smb_command: Tree Connect AndX
+        - match_phrase:
+            payload.smb_headers.msrpc_opnum: '22'
+        - match_phrase:
+            payload.smb_headers.msrpc_key_name: System\\CurrentControlSet\\services
+        - match_phrase:
+            payload.smb_headers.msrpc_pkt_type: OpenHKLM
+        - match_phrase:
+            payload.smb_headers.msrpc_key_file: ImagePath
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+
+
+
+description: >-
+
+  This rule indicates remote modification of the registry key using the system services key.
+
+  The Services key path controls, what drivers are loaded on the Windows system at boot time. An attacker can create a subkey with a name and then point the location to the malicious ".sys" file.
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565271a6011881e0f72ac111cac65076256

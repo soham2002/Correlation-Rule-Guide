@@ -1,0 +1,40 @@
+_id: 62989d13499a31d09bcb51be2b793296
+alert_transport: []
+description: >-
+  This rule detects malicious DNS queries encoded in base64. DNS queries are not base64 encoded. The presence of base64 encoding could mean C&C communication, data exfiltration etc.
+
+  File exfiltration can be done from a firewalled network using DNS queries.
+enable_response: false
+filter:
+  - bool:
+      should:
+        - wildcard:
+            session.url.keyword: '*=.*'
+index: logvehere-probe-*
+is_enabled: true
+name: TI01056 Suspicious DNS Query with Base64 Encoded String sFlow
+owner: vnfsadmin
+priority: 0
+shared: false
+tags:
+  - attack.exfiltration
+  - attack.t1048
+  - attack.t1048.003
+  - attack.command_and_control
+  - attack.t1071
+  - attack.t1071.004
+timestamp_field: '@timestamp'
+type: any
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+alert:
+  - lsalert
+
+
+
+# PROBE_NDR_NF
+rule_id: 172189856562989d13499a31d09bcb51be2b793296

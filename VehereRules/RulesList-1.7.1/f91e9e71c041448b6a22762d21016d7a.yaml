@@ -1,0 +1,45 @@
+_id: f91e9e71c041448b6a22762d21016d7a
+alert_transport: []
+description: >-
+  This rule detects exploitation of the confluence vulnerability that may allow
+  attackers to write files into arbitrary locations in the server file system.
+enable_response: false
+filter:
+  - bool:
+      must:
+        - wildcard:
+            payload.http_get.keyword: '*/upload.action*'
+        - wildcard:
+            payload.http_get.keyword: '*filename=../../../../*'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI04011 Confluence Exploitation CVE-2019-3398
+owner: vnfsadmin
+priority: 0
+shared: false
+tags:
+  - attack.initial_access
+  - attack.t1190
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR
+rule_id: 1721898565f91e9e71c041448b6a22762d21016d7a

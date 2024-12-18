@@ -1,0 +1,54 @@
+_id: 979981edea68689b2ba4e8e2b4627bba
+alert_transport: []
+description: >-
+  This rule detects GitHub communication containing references to the windows
+  system folder
+enable_response: false
+filter:
+  - bool:
+      must:
+        - bool:
+            should:
+              - wildcard:
+                  payload.http_host.keyword: '*.github.com'
+              - wildcard:
+                  payload.http_host.keyword: '*.githubusercontent.com'
+        - bool:
+            should:
+              - wildcard:
+                  payload.http_get.keyword: '*C:\\Windows\\*'
+              - wildcard:
+                  payload.http_get.keyword: '*C:%5CWindows%5CUser%5CAdmin'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI05507 Microsoft Binary Github Communication
+owner: vnfsadmin
+priority: 3
+shared: false
+tags:
+  - attack.lateral_movement
+  - attack.t1105
+  - attack.exfiltration
+  - attack.t1567.001
+  - attack.t1048
+timestamp_field: '@timestamp'
+type: any
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565979981edea68689b2ba4e8e2b4627bba

@@ -1,0 +1,52 @@
+_id: 5a15b8da5d226c83f53a4cc768c8ac2d
+name: TI08089 ICMP Source Route Failed
+index: logvehere-probe-*
+type: any
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  payload.icmp_code: 5
+              - term:
+                  payload.icmp_type: '3'
+        - bool:
+            must:
+              - wildcard:
+                  session.dpi_protocol.keyword: '*netflow*'
+              - term:
+                  session.icmp_type: '773'
+alert_transport: []
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+timestamp_field: '@timestamp'
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+description: >-
+  This rule detects MITM attack, where the attacker is trying to forge
+  ICMP-redirect packets in order to redirect traffic to itself which eventually
+  results in gathering all data passing through it In order to establish a
+  successful MITM attack, the attacker looks for the network hosts that are
+  down. When these hosts are pinged by other nodes in the network, the attacker
+  will respond to them by sending a successful ping message.
+
+  And in this way, the attacker can forge ICMP-redirect packets in order to
+  redirect traffic to himself which eventually results in gathering all data
+  passing through it
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 17218985655a15b8da5d226c83f53a4cc768c8ac2d

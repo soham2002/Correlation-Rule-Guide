@@ -1,0 +1,30 @@
+_id: f111685fce49d16ab38bd2bd5524c3af
+name: TI01083 ICMP Unreachable Network Type of Service sFlow
+index: logvehere-probe-*
+type: any
+filter:
+  - bool:
+      must:
+        - term:
+            session.icmp_code: 11
+        - term:
+            session.icmp_type: '3'
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+timestamp_field: '@timestamp'
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+description: >-
+  This rule detects when the source host has received an ICMP message that the
+  "network is unreachable for the specified Type Of Service."
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+# PROBE_NDR_NF
+rule_id: 1721898565f111685fce49d16ab38bd2bd5524c3af

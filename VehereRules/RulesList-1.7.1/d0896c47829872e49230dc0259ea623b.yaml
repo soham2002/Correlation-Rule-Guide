@@ -1,0 +1,54 @@
+_id: d0896c47829872e49230dc0259ea623b
+alert_transport: []
+description: >-
+  This rule detects Remote Code Execution that allows an attacker to send a
+  specially crafted payload to the server and have it execute an embedded
+  command.
+
+
+  A remote code execution vulnerability exists in Microsoft Exchange software
+  when the software fails to properly handle objects in memory, aka 'Microsoft
+  Exchange Memory Corruption Vulnerability’.
+enable_response: false
+filter:
+  - bool:
+      must:
+        - bool:
+            should:
+              - wildcard:
+                  payload.http_get.keyword: '''*/ecp/*'
+              - wildcard:
+                  payload.http_get.keyword: '*/owa/*'
+        - wildcard:
+            payload.http_get.keyword: '*__VIEWSTATE=*'
+
+index: logvehere-probe-*
+is_enabled: true
+name: TI04009 CVE-2020-0688 Exchange Exploitation via Web Log
+owner: vnfsadmin
+priority: 0
+shared: false
+tags:
+  - attack.initial_access
+  - attack.t1190
+timestamp_field: '@timestamp'
+type: any
+match_bucket_filter: []
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_ssl: true
+verify_certs: false
+es_username: admin
+es_password: admin
+scheduler: '* * * * *'
+
+
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR
+rule_id: 1721898565d0896c47829872e49230dc0259ea623b

@@ -1,0 +1,48 @@
+_id: d92c6f22308e5ffcfb1cef44ea8e0ee7
+name: TI10146 High SMB Peer
+index: logvehere-probe-*
+filter:
+  - bool:
+      should:
+        - match_phrase:
+            payload.smb_headers.smb2_command: Tree Connect
+        - match_phrase:
+            payload.smb_headers.smb_command: Tree Connect AndX
+  - bool:
+      should:
+        - match_phrase:
+            transport.dst_port: '445'
+        - match_phrase:
+            transport.dst_port: '139'
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+ruleRow: []
+timestamp_field: '@timestamp'
+type: metric_aggregation
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+use_count_query: false
+use_terms_query: false
+metric_agg_key: network.dst_ip
+metric_agg_type: value_count
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+max_threshold: 20
+query_key:
+- network.src_ip
+scheduler: '* * * * *'
+description: >-
+  This rule indicates one client has connected to many systems using smb protocol.  This could be the case when malware connects to several other hosts after infecting one client in a short span of time.
+alert:
+  - lsalert
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565d92c6f22308e5ffcfb1cef44ea8e0ee7

@@ -1,0 +1,58 @@
+_id: c3d7953554ad22d67038d76749ca1b9a
+name: TI01090 ICMP Request Timeout
+index: logvehere-probe-*
+filter:
+  - bool:
+      should:
+        - bool:
+            must:
+              - term:
+                  payload.icmp_type: '11'
+              - term:
+                  payload.icmp_code: '0'
+        - bool:
+            must:
+              - wildcard:
+                  session.dpi_protocol.keyword: '*netflow*'
+              - term:
+                  session.icmp_type: '2816'
+alert_transport: []
+scheduler: '* * * * *'
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+timestamp_field: '@timestamp'
+type: metric_aggregation
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+sync_bucket_interval: false
+allow_buffer_time_overlap: false
+use_run_every_query_size: false
+description: >-
+  This rule detects when an attacker is using traceroute-like IP packet analysis
+  to collect details of the victims network. Attacker tries to pass ICMP packets
+  on all ports and protocols and check the responses, if no response is received
+  from the machine then the protocol used to pass is blocked. Attacker could
+  also be trying to generate a map of the network’s topology by using hop count
+  analysis and tracing.
+metric_agg_key: session.id
+metric_agg_type: value_count
+max_threshold: 25
+query_key:
+- network.src_ip
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 1
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NETFLOW_NDR_NF
+rule_id: 1721898565c3d7953554ad22d67038d76749ca1b9a

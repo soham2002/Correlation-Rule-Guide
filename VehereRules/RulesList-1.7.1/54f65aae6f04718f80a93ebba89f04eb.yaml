@@ -1,0 +1,42 @@
+_id: 54f65aae6f04718f80a93ebba89f04eb
+name: TI10111 Executable Upload to C share using SMBv2 Lateral Movement
+index: logvehere-probe-*
+filter:
+  - match_phrase:
+      payload.smb_headers.smb2_command: Tree Connect
+  - wildcard:
+      payload.smb_headers.smb2_path.keyword: '*\\C$'
+  - wildcard:
+      payload.smb_headers.smb2_filename.keyword: '*.exe'
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+description: >-
+  This rule detects the transfer of an executable file using the C$ hidden share.
+  
+  By default, There are 3 administrative hidden shares created in the system. They are "C$", "IPC$" and "ADMIN$".  These hidden shares are accessible only to administrators.
+  
+  Once the adversaries have access to administrator privileges, they can transfer the tools or other files between systems in a compromised environment. 
+  This rule detects the transfer of an executable file using the C$ hidden
+  share.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+# PROBE_NDR_NF
+rule_id: 172189856554f65aae6f04718f80a93ebba89f04eb

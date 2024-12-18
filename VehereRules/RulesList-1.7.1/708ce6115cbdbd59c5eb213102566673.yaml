@@ -1,0 +1,56 @@
+_id: 708ce6115cbdbd59c5eb213102566673
+name: TI10116 Psexec SMBv2 Lateral Movement
+index: logvehere-probe-*
+filter:
+  - bool:
+      must:
+        - match_phrase:
+            payload.smb_headers.smb2_command: IOCTL
+        - match_phrase:
+            payload.smb_headers.smb2_name: RemCom_communicaton
+alert_transport: []
+scheduler: '* * * * *'
+
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 2
+enable_response: false
+enable_end_date: false
+
+ruleRow: []
+timestamp_field: '@timestamp'
+type: any
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+
+
+description: >-
+  This rule indicates usage of Psexec tool.
+
+
+  PsExec is a remote administration tool. Attacker frequently upload PsExec onto
+  compromised machines. Once they harvest credentials using tools they use the
+  harvested credentials to execute commands on other machines on the network
+  using PsExec.
+
+
+  The way PsExec operates is by uploading an exe to the remote computer and
+  calling on SCMR to launch the uploaded exe as a service. This service sets up
+  several named pipes; one for stdin, one for stdout, one for stderr and one
+  main named pipe for control.
+
+
+  The attacker then enters commands which are sent to the named pipe setup for
+  stdin and the responses come back via the named pipe setup for stdout.
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565708ce6115cbdbd59c5eb213102566673

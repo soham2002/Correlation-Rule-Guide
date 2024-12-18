@@ -1,0 +1,25 @@
+_id: cf72fb0a10d81d5b78397d883d0a904c 
+name: 'HM1001 Zero Ingress Traffic'
+description: >-
+  This rule detects when there is no ingress traffic or the input port is down.
+filter: []
+metric_agg_key: received_gbps_decimal
+metric_agg_type: sum
+min_threshold: 1
+buffer_time:
+  minutes: 15
+bucket_interval:
+  minutes: 5
+rule_id: 1721898565cf72fb0a10d81d5b78397d883d0a904c
+is_enabled: true
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+type: metric_aggregation
+index: probe_stats_record
+timestamp_field: 'cts'
+alert:
+  - lsalert
+
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+

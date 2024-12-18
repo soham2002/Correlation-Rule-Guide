@@ -1,0 +1,31 @@
+_id: 371733e6896f8c379a910ab9978396c4
+name: TI01085 ICMP Precedence below than minimum required sFlow
+index: logvehere-probe-*
+type: any
+filter:
+  - bool:
+      must:
+        - term:
+            session.icmp_code: 15
+        - term:
+            session.icmp_type: '3'
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+timestamp_field: '@timestamp'
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+scheduler: '* * * * *'
+description: >-
+  This rule detects Network scanning attempt. This type of ICMP message is sent
+  by the first hop router to a host to indicate that  requested precedence is
+  not permitted for the particular combination of (IP, port, protocol).
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+# PROBE_NDR_NF
+rule_id: 1721898565371733e6896f8c379a910ab9978396c4

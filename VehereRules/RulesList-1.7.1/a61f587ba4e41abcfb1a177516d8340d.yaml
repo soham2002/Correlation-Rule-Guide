@@ -1,0 +1,39 @@
+_id: a61f587ba4e41abcfb1a177516d8340d
+name: TI13095 SSH Reverse Shell
+index: 'logvehere-probe-*'
+description: >-
+  This rule detects a reverse SSH shell, where target machine initiates the outgoing connection and establishes the shell session with the listening network host.
+type: advanced_search
+filter:
+  - bool:
+      must:
+        - term:
+            session.protocol: ssh
+        - range:
+            session.received_bytes:
+              gt: 1
+alert_transport: []
+is_enabled: true
+shared: false
+owner: vnfsadmin
+priority: 3
+enable_response: false
+num_events: 50
+timeframe:
+  minutes: 1
+condition_string: 'int( session.transmitted_bytes ) > 300 * int( session.received_bytes )'
+timestamp_field: '@timestamp'
+match_bucket_filter: []
+scheduler: '* * * * *'
+ls_output_file_path: /var/log/ruleengine/vnfsalert.json
+
+alert:
+  - lsalert
+# Uncomment below lines and Put the command and the arguments as each array elements. 'command: ["/bin/send_alert", "--option", "%(filed.subfield)"]'
+#  - command
+#command: ["/bin/send_alert", "--username", "%(username)"]
+
+
+
+# PROBE_NDR_NF
+rule_id: 1721898565a61f587ba4e41abcfb1a177516d8340d
