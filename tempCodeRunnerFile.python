@@ -1,0 +1,31 @@
+import math
+
+def gcd_pairs_count(N, K):
+    if K > N:
+        return 0
+    
+    N_reduced = N // K
+    count = 0
+    
+    # Calculate Euler's Totient Function for numbers from 1 to N_reduced
+    phi = [i for i in range(N_reduced + 1)]
+    for i in range(2, N_reduced + 1):
+        if phi[i] == i:
+            for j in range(i, N_reduced + 1, i):
+                phi[j] -= phi[j] // i
+    
+    # Sum the totient values to get the total count of coprime pairs
+    count = sum(phi[1:N_reduced + 1])
+    
+    return count
+
+def main():
+    # Input: Number of test cases
+    T = int(input("Enter number of test cases: "))
+    for _ in range(T):
+        N, K = map(int, input("Enter N and K: ").split())
+        print(gcd_pairs_count(N, K))
+
+# Example usage
+if __name__ == "__main__":
+    main()
